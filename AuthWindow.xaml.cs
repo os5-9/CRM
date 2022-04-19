@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
@@ -16,25 +17,37 @@ namespace TravelAgencyCRM
         {
             InitializeComponent();
         }
-        
+
         AgencyModel model = new AgencyModel();
-        
+        public static string log;
+         
+
         private void Enter_Click(object sender, RoutedEventArgs e)
         {
             string login = tbLogin.Text;
             string password = tbPassword.Password;
 
+            if ((string.IsNullOrWhiteSpace(login)) && (string.IsNullOrWhiteSpace(password)))
+            {
+                MessageBox.Show("Заполните все поля");
+                log = $"Авторизация | Пустые поля логина и пароля\n";
+                Logger.Log(log);
+                return;
+            }
+
             if (string.IsNullOrWhiteSpace(login))
             {
                 MessageBox.Show("Введите логин");
-                WriteLine($"Пустое поле логина");
+                log = $"Авторизация | Пустое поле логина\n";
+                Logger.Log(log);
                 return;
             }
 
             if (string.IsNullOrWhiteSpace(password))
             {
                 MessageBox.Show("Введите пароль");
-                WriteLine($"Пустое поле пароля");
+                log = $"Авторизация | Пустое поле пароля\n";
+                Logger.Log(log);
                 return;
             }
 
@@ -45,13 +58,15 @@ namespace TravelAgencyCRM
                 switch (staff.IsAdmin)
                 {
                     case 0:
-                        WriteLine($"Авторизация пользователя Менеджер - {staff.FullName}");
+                        log = $"Авторизация | Авторизация пользователя Менеджер - {staff.FullName}\n";
+                        Logger.Log(log);
                         ManagerWindow m = new ManagerWindow();
                         m.Show();
                         this.Close();
                         break;
                     case 1:
-                        WriteLine($"Авторизация пользователя Директор - {staff.FullName}");
+                        log = $"Авторизация | Авторизация пользователя Директор - {staff.FullName}\n";
+                        Logger.Log(log);
                         AdminWindow window = new AdminWindow();
                         window.Show();
                         this.Close();
@@ -61,7 +76,8 @@ namespace TravelAgencyCRM
             else
             {
                 MessageBox.Show("Неверный логин или пароль");
-                WriteLine($"Неверный логин или пароль {login} {password}");
+                log = $"Авторизация | Неверный логин или пароль {login}\n";
+                Logger.Log(log);
             }
         }
 
