@@ -30,6 +30,12 @@ namespace TravelAgencyCRM
             {
                 dgTour.Height = this.ActualHeight - wPanel.ActualHeight;
             }
+
+            if (tiTrack.IsSelected)
+            {
+                dgTrack.Height = this.ActualHeight - (TourPanel.ActualHeight - 180);
+            }
+
         }
     }
 }

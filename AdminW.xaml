@@ -29,13 +29,13 @@
                         </Grid.RowDefinitions>
                         <Label Content="Пол" HorizontalAlignment="Center"/>
                         <Label Content="Имя" Grid.Column="1" HorizontalAlignment="Center"/>
-                        <ComboBox Height="33" Width="220" Grid.Row="2" >
+                        <ComboBox Height="33" Grid.Row="2" >
                             <ComboBoxItem Content="Все"/>
                             <ComboBoxItem Content="Мужчина"/>
                             <ComboBoxItem Content="Женщина"/>
                         </ComboBox>
                         <TextBox Grid.Row="2" Grid.Column="1" Width="auto"/>
-                        <Button x:Name="ShowClientHistory" Content="Просмотреть историю"  Grid.Column="3" Grid.Row="0" Grid.RowSpan="3" VerticalAlignment="Center" Width="237"/>
+                        <Button x:Name="ShowClientHistory" Content="Просмотреть историю"  Grid.Column="3" Grid.ColumnSpan="2" Grid.Row="0" Grid.RowSpan="3" VerticalAlignment="Center" Width="237"/>
                     </Grid>
                     <DataGrid Grid.Row="1"/>
                 </Grid>
@@ -120,7 +120,7 @@
                         </Grid.RowDefinitions>
                         <Label Content="Должность" HorizontalAlignment="Center"/>
                         <Label Content="ФИО" Grid.Column="1" HorizontalAlignment="Center"/>
-                        <ComboBox Height="33" Width="220" Grid.Row="2" >
+                        <ComboBox Height="33" Grid.Row="2" >
                             <ComboBoxItem Content="Все"/>
                             <ComboBoxItem Content="Директор"/>
                             <ComboBoxItem Content="Менеджер"/>
@@ -130,7 +130,114 @@
                     <DataGrid Grid.Row="1"/>
                 </Grid>
             </TabItem>  
-            <TabItem Header="Поездки">
+            <TabItem Header="Поездки" Name="tiTrack">
+                <StackPanel>
+                    <StackPanel x:Name="ClientPanel" Height="90">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="320"/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition Height="5"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Label Content="Пол" HorizontalAlignment="Center"/>
+                            <Label Content="Имя" Grid.Column="1" HorizontalAlignment="Center"/>
+                            <ComboBox Height="33" Grid.Row="2" >
+                                <ComboBoxItem Content="Все"/>
+                                <ComboBoxItem Content="Мужчина"/>
+                                <ComboBoxItem Content="Женщина"/>
+                            </ComboBox>
+                            <TextBox Grid.Row="2" Grid.Column="1" Width="auto"/>
+                            <Button Content="Просмотреть историю"  Grid.Column="3" Grid.ColumnSpan="2" Grid.Row="0" Grid.RowSpan="3" VerticalAlignment="Center" Width="237"/>
+                        </Grid>
+                    </StackPanel>
+                    <StackPanel x:Name="TourPanel">
+                        <StackPanel Orientation="Vertical">
+                            <StackPanel>
+                                <WrapPanel Grid.Row="0">
+                                    <Canvas Width="165" Height="80">
+                                        <Label Content="Статус путёвки" Canvas.Left="5"/>
+                                        <ComboBox  Canvas.Left="5" Canvas.Top="40">
+                                            <ComboBoxItem Content="Горящая"/>
+                                            <ComboBoxItem Content="Обычная"/>
+                                            <ComboBoxItem Content="Все"/>
+                                        </ComboBox>
+                                    </Canvas>
+                                    <Canvas Width="165" Height="80">
+                                        <Label Content="Тип" Canvas.Left="5"/>
+                                        <ComboBox Canvas.Top="40" Height="33" Canvas.Left="5" >
+                                            <ComboBoxItem Content="С пересадками"/>
+                                            <ComboBoxItem Content="Без пересадок"/>
+                                            <ComboBoxItem Content="Все"/>
+                                        </ComboBox>
+                                    </Canvas>
+                                    <Canvas Width="165" Height="80">
+                                        <Label Content="Город" Canvas.Left="5"/>
+                                        <TextBox Height="33" Canvas.Left="5" FontSize="20" Width="150" Canvas.Top="40"/>
+                                    </Canvas>
+                                    <Canvas Width="165" Height="80">
+                                        <Label Content="Страна" Canvas.Left="5" Width="81" Height="40" FontSize="20"/>
+                                        <TextBox Height="33" Canvas.Left="5" FontSize="20" Width="150" Canvas.Top="40" />
+                                    </Canvas>
+                                    <Canvas Width="165" Height="80">
+                                        <Label Content="Цена" Canvas.Left="5" Width="66" Height="40" FontSize="20"/>
+                                        <TextBox   Height="33" Canvas.Left="5" FontSize="20" Width="150" Canvas.Top="40" />
+                                    </Canvas>
+                                    <Canvas Width="310" Height="87">
+                                        <Label Content="Дата отправки" Canvas.Left="70" Canvas.Top="2" Width="166" Height="38" FontSize="20"/>
+                                        <DatePicker Canvas.Left="5" Canvas.Top="40" />
+                                        <DatePicker Canvas.Left="155" Canvas.Top="40" />
+                                    </Canvas>
+                                    <Canvas Width="310" Height="87">
+                                        <Label Content="Дата прибытия" Canvas.Left="70" Canvas.Top="0"/>
+                                        <DatePicker  Canvas.Left="5" Canvas.Top="40"/>
+                                        <DatePicker Canvas.Left="155" Canvas.Top="40"/>
+                                    </Canvas>
+                                    <Canvas Width="130" Height="87">
+                                        <Button Content="Добавить" Canvas.Left="5" Canvas.Top="25"/>
+                                    </Canvas>
+                                    <Canvas Width="190" Height="87">
+                                        <Button Content="Редактировать" Width="180" Canvas.Left="5" Canvas.Top="25"/>
+                                    </Canvas>
+                                    <Canvas Width="130" Height="87">
+                                        <Button Content="Удалить" Canvas.Left="5" Canvas.Top="25"/>
+                                    </Canvas>
+                                </WrapPanel>
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel x:Name="StaffPanel" Height="90">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="320"/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition Height="5"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Label Content="Должность" HorizontalAlignment="Center"/>
+                            <Label Content="ФИО" Grid.Column="1" HorizontalAlignment="Center"/>
+                            <ComboBox Height="33" Grid.Row="2" >
+                                <ComboBoxItem Content="Все"/>
+                                <ComboBoxItem Content="Директор"/>
+                                <ComboBoxItem Content="Менеджер"/>
+                            </ComboBox>
+                            <TextBox Grid.Row="2" Grid.Column="1" Width="auto"/>
+                        </Grid>
+                    </StackPanel>
+                    <DataGrid x:Name="dgTrack"/>
+                </StackPanel>
             </TabItem>
         </TabControl>
     </Grid>
