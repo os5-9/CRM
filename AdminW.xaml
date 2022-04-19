@@ -29,10 +29,10 @@
                         </Grid.RowDefinitions>
                         <Label Content="Пол" HorizontalAlignment="Center"/>
                         <Label Content="Имя" Grid.Column="1" HorizontalAlignment="Center"/>
-                        <ComboBox Height="33" Grid.Row="2" >
+                        <ComboBox Height="33" Width="220" Grid.Row="2" >
+                            <ComboBoxItem Content="Все"/>
                             <ComboBoxItem Content="Мужчина"/>
                             <ComboBoxItem Content="Женщина"/>
-                            <ComboBoxItem Content="Все"/>
                         </ComboBox>
                         <TextBox Grid.Row="2" Grid.Column="1" Width="auto"/>
                         <Button x:Name="ShowClientHistory" Content="Просмотреть историю"  Grid.Column="3" Grid.Row="0" Grid.RowSpan="3" VerticalAlignment="Center" Width="237"/>
@@ -91,17 +91,46 @@
                             <Canvas Width="130" Height="87">
                                 <Button Content="Удалить" Canvas.Left="5" Canvas.Top="25"/>
                             </Canvas>
-                            
+
                             <TextBox x:Name="ForTourId"  Visibility="Collapsed"/>
                         </WrapPanel>
                     </StackPanel>
                     <DataGrid x:Name="dgTour"/>
-                  
+
                 </StackPanel>
             </TabItem>
-            <TabItem Header="Поездки">
-            </TabItem>
             <TabItem Header="Сотрудники">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="100"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="320"/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition Height="5"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Label Content="Должность" HorizontalAlignment="Center"/>
+                        <Label Content="ФИО" Grid.Column="1" HorizontalAlignment="Center"/>
+                        <ComboBox Height="33" Width="220" Grid.Row="2" >
+                            <ComboBoxItem Content="Все"/>
+                            <ComboBoxItem Content="Директор"/>
+                            <ComboBoxItem Content="Менеджер"/>
+                        </ComboBox>
+                        <TextBox Grid.Row="2" Grid.Column="1" Width="auto"/>
+                    </Grid>
+                    <DataGrid Grid.Row="1"/>
+                </Grid>
+            </TabItem>  
+            <TabItem Header="Поездки">
             </TabItem>
         </TabControl>
     </Grid>
