@@ -6,8 +6,8 @@
         xmlns:local="clr-namespace:TravelAgencyCRM"
         mc:Ignorable="d"
         Title="" Height="600" Width="1000">
-    <Grid>
-        <TabControl>
+    <Grid> 
+        <TabControl SelectionChanged="TabControl_SelectionChanged">
             <TabItem Header="Клиенты">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -40,11 +40,55 @@
                         <Button Content="Редактировать" Width="180" Grid.Column="3" Grid.Row="2"/>
                         <Button Content="Удалить" Grid.Column="4" Grid.Row="2"/>
                     </Grid>
-                  
                     <DataGrid Grid.Row="1"/>
                 </Grid>
             </TabItem>
-            <TabItem Header="Туры">
+            <TabItem Header="Туры" x:Name="tiTour">
+                <StackPanel Orientation="Vertical">
+                    <StackPanel x:Name="wPanel">
+                        <WrapPanel Grid.Row="0">
+                            <Canvas Width="165" Height="80">
+                                <Label Content="Статус путёвки" Canvas.Left="5"/>
+                                <ComboBox x:Name="for_state" Canvas.Left="5" Canvas.Top="40">
+                                    <ComboBoxItem Content="Горящая"/>
+                                    <ComboBoxItem Content="Обычная"/>
+                                    <ComboBoxItem Content="Все"/>
+                                </ComboBox>
+                            </Canvas>
+                            <Canvas Width="165" Height="80">
+                                <Label Content="Тип" Canvas.Left="5"/>
+                                <ComboBox x:Name="for_type" Canvas.Top="40" Height="33" Canvas.Left="5" >
+                                    <ComboBoxItem Content="С пересадками"/>
+                                    <ComboBoxItem Content="Без пересадок"/>
+                                    <ComboBoxItem Content="Все"/>
+                                </ComboBox>
+                            </Canvas>
+                            <Canvas Width="165" Height="80">
+                                <Label Content="Город" Canvas.Left="5"/>
+                                <TextBox x:Name="tb1" Height="33" Canvas.Left="5" FontSize="20" Width="150" Canvas.Top="40"/>
+                            </Canvas>
+                            <Canvas Width="165" Height="80">
+                                <Label Content="Страна" Canvas.Left="5" Width="81" Height="40" FontSize="20"/>
+                                <TextBox x:Name="tb2" Height="33" Canvas.Left="5" FontSize="20" Width="150" Canvas.Top="40" />
+                            </Canvas>
+                            <Canvas Width="165" Height="80">
+                                <Label Content="Цена" Canvas.Left="5" Width="66" Height="40" FontSize="20"/>
+                                <TextBox x:Name="tb3"  Height="33" Canvas.Left="5" FontSize="20" Width="150" Canvas.Top="40" />
+                            </Canvas>
+                            <Canvas Width="310" Height="87">
+                                <Label Content="Дата отправки" Canvas.Left="70" Canvas.Top="2" Width="166" Height="38" FontSize="20"/>
+                                <DatePicker x:Name="arrivS" Canvas.Left="5" Canvas.Top="40" />
+                                <DatePicker x:Name="arrivF" Canvas.Left="155" Canvas.Top="40" />
+                            </Canvas>
+                            <Canvas Width="310" Height="87">
+                                <Label Content="Дата прибытия" Canvas.Left="70" Canvas.Top="0"/>
+                                <DatePicker x:Name="deparS" Canvas.Left="5" Canvas.Top="40"/>
+                                <DatePicker x:Name="deparF" Canvas.Left="155" Canvas.Top="40"/>
+                            </Canvas>
+                        </WrapPanel>
+                    </StackPanel>
+                    <DataGrid x:Name="dgTour"/>
+                </StackPanel>
             </TabItem>
             <TabItem Header="Поездки">
             </TabItem>
