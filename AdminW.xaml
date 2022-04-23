@@ -29,15 +29,27 @@
                         </Grid.RowDefinitions>
                         <Label Content="Пол" HorizontalAlignment="Center"/>
                         <Label Content="Имя" Grid.Column="1" HorizontalAlignment="Center"/>
-                        <ComboBox Height="33" Grid.Row="2" >
+                        <ComboBox Height="33" Grid.Row="2" x:Name="cmbGender" SelectionChanged="cmbGender_SelectionChanged">
                             <ComboBoxItem Content="Все"/>
-                            <ComboBoxItem Content="Мужчина"/>
-                            <ComboBoxItem Content="Женщина"/>
+                            <ComboBoxItem Content="Мужской"/>
+                            <ComboBoxItem Content="Женский"/>
                         </ComboBox>
-                        <TextBox Grid.Row="2" Grid.Column="1" Width="auto"/>
+                        <TextBox x:Name="tbName" Grid.Row="2" Grid.Column="1" TextChanged="tbName_TextChanged" Width="auto"/>
                         <Button x:Name="ShowClientHistory" Content="Просмотреть историю"  Grid.Column="3" Grid.ColumnSpan="2" Grid.Row="0" Grid.RowSpan="3" VerticalAlignment="Center" Width="237"/>
                     </Grid>
-                    <DataGrid Grid.Row="1"/>
+                    <DataGrid x:Name="dgClient" Grid.Row="1" AutoGenerateColumns="False"  CanUserAddRows="False" IsReadOnly="True" CanUserDeleteRows="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="" Binding="{Binding ID}"/>
+                            <DataGridTextColumn Header="" Binding="{Binding FullName}"/>
+                            <DataGridTextColumn Header="" Binding="{Binding PassportS}"/>
+                            <DataGridTextColumn Header="" Binding="{Binding PassportN}"/>
+                            <DataGridTextColumn Header="" Binding="{Binding BDay, StringFormat=\{0:dd.MM.yyyy\}}"/>
+                            <DataGridTextColumn Header="" Binding="{Binding Address}"/>
+                            <DataGridTextColumn Header="" Binding="{Binding Gender}"/>
+                            <DataGridTextColumn Header="" Binding="{Binding Msisdn}"/>
+                            <DataGridTextColumn Header="" Binding="{Binding Email}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
                 </Grid>
             </TabItem>
             <TabItem Header="Туры" x:Name="tiTour">
