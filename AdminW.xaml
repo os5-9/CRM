@@ -8,7 +8,7 @@
         Title="AdminW" Height="940" Width="1400" MinWidth="1100" MinHeight="800"  WindowStartupLocation="CenterScreen">
     <Grid>
         <TabControl SelectionChanged="TabControl_SelectionChanged">
-            <TabItem Header="Клиенты">
+            <TabItem Header="Клиенты" x:Name="tiClient">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="100"/>
@@ -39,15 +39,15 @@
                     </Grid>
                     <DataGrid x:Name="dgClient" Grid.Row="1" AutoGenerateColumns="False"  CanUserAddRows="False" IsReadOnly="True" CanUserDeleteRows="False">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="" Binding="{Binding ID}"/>
-                            <DataGridTextColumn Header="" Binding="{Binding FullName}"/>
-                            <DataGridTextColumn Header="" Binding="{Binding PassportS}"/>
-                            <DataGridTextColumn Header="" Binding="{Binding PassportN}"/>
-                            <DataGridTextColumn Header="" Binding="{Binding BDay, StringFormat=\{0:dd.MM.yyyy\}}"/>
-                            <DataGridTextColumn Header="" Binding="{Binding Address}"/>
-                            <DataGridTextColumn Header="" Binding="{Binding Gender}"/>
-                            <DataGridTextColumn Header="" Binding="{Binding Msisdn}"/>
-                            <DataGridTextColumn Header="" Binding="{Binding Email}"/>
+                            <DataGridTextColumn Header="ID" Binding="{Binding ID}"/>
+                            <DataGridTextColumn Header="ФИО" Binding="{Binding FullName}"/>
+                            <DataGridTextColumn Header="Серия" Binding="{Binding PassportS}"/>
+                            <DataGridTextColumn Header="Номер" Binding="{Binding PassportN}"/>
+                            <DataGridTextColumn Header="Дата рождения" Binding="{Binding BDay, StringFormat=\{0:dd.MM.yyyy\}}"/>
+                            <DataGridTextColumn Header="Адрес" Binding="{Binding Address}"/>
+                            <DataGridTextColumn Header="Пол" Binding="{Binding Gender}"/>
+                            <DataGridTextColumn Header="Номер телефона" Binding="{Binding Msisdn}"/>
+                            <DataGridTextColumn Header="Электронная почта" Binding="{Binding Email}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </Grid>
@@ -58,41 +58,41 @@
                         <WrapPanel Grid.Row="0">
                             <Canvas Width="165" Height="80">
                                 <Label Content="Статус путёвки" Canvas.Left="5"/>
-                                <ComboBox x:Name="for_state" Canvas.Left="5" Canvas.Top="40">
+                                <ComboBox x:Name="cmbStatus" Canvas.Left="5" Canvas.Top="40" SelectionChanged="cmbStatus_SelectionChanged">
+                                    <ComboBoxItem Content="Все"/>
                                     <ComboBoxItem Content="Горящая"/>
                                     <ComboBoxItem Content="Обычная"/>
-                                    <ComboBoxItem Content="Все"/>
                                 </ComboBox>
                             </Canvas>
                             <Canvas Width="165" Height="80">
                                 <Label Content="Тип" Canvas.Left="5"/>
-                                <ComboBox x:Name="for_type" Canvas.Top="40" Height="33" Canvas.Left="5" >
+                                <ComboBox x:Name="cmbType" Canvas.Top="40" Height="33" Canvas.Left="5" SelectionChanged="cmbType_SelectionChanged" >
+                                    <ComboBoxItem Content="Все"/>
                                     <ComboBoxItem Content="С пересадками"/>
                                     <ComboBoxItem Content="Без пересадок"/>
-                                    <ComboBoxItem Content="Все"/>
                                 </ComboBox>
                             </Canvas>
                             <Canvas Width="165" Height="80">
                                 <Label Content="Город" Canvas.Left="5"/>
-                                <TextBox x:Name="tb1" Height="33" Canvas.Left="5" FontSize="20" Width="150" Canvas.Top="40"/>
+                                <TextBox x:Name="tbCity" Height="33" Canvas.Left="5" FontSize="20" Width="150" Canvas.Top="40" TextChanged="tbCity_TextChanged"/>
                             </Canvas>
                             <Canvas Width="165" Height="80">
                                 <Label Content="Страна" Canvas.Left="5" Width="81" Height="40" FontSize="20"/>
-                                <TextBox x:Name="tb2" Height="33" Canvas.Left="5" FontSize="20" Width="150" Canvas.Top="40" />
+                                <TextBox x:Name="tbCountry" Height="33" Canvas.Left="5" FontSize="20" Width="150" Canvas.Top="40" TextChanged="tbCity_TextChanged"/>
                             </Canvas>
                             <Canvas Width="165" Height="80">
                                 <Label Content="Цена" Canvas.Left="5" Width="66" Height="40" FontSize="20"/>
-                                <TextBox x:Name="tb3"  Height="33" Canvas.Left="5" FontSize="20" Width="150" Canvas.Top="40" />
+                                <TextBox x:Name="tbPrice"  Height="33" Canvas.Left="5" FontSize="20" Width="150" Canvas.Top="40" TextChanged="tbCity_TextChanged"/>
                             </Canvas>
                             <Canvas Width="310" Height="87">
                                 <Label Content="Дата отправки" Canvas.Left="70" Canvas.Top="2" Width="166" Height="38" FontSize="20"/>
-                                <DatePicker x:Name="arrivS" Canvas.Left="5" Canvas.Top="40" />
-                                <DatePicker x:Name="arrivF" Canvas.Left="155" Canvas.Top="40" />
+                                <DatePicker x:Name="dpArrivS" Canvas.Left="5" Canvas.Top="40" />
+                                <DatePicker x:Name="dpArrivF" Canvas.Left="155" Canvas.Top="40" />
                             </Canvas>
                             <Canvas Width="310" Height="87">
                                 <Label Content="Дата прибытия" Canvas.Left="70" Canvas.Top="0"/>
-                                <DatePicker x:Name="deparS" Canvas.Left="5" Canvas.Top="40"/>
-                                <DatePicker x:Name="deparF" Canvas.Left="155" Canvas.Top="40"/>
+                                <DatePicker x:Name="dpDeparS" Canvas.Left="5" Canvas.Top="40"/>
+                                <DatePicker x:Name="dpDeparF" Canvas.Left="155" Canvas.Top="40"/>
                             </Canvas>
                             <Canvas Width="130" Height="87">
                                 <Button Content="Добавить" Canvas.Left="5" Canvas.Top="25"/>
@@ -103,12 +103,20 @@
                             <Canvas Width="130" Height="87">
                                 <Button Content="Удалить" Canvas.Left="5" Canvas.Top="25"/>
                             </Canvas>
-
-                            <TextBox x:Name="ForTourId"  Visibility="Collapsed"/>
                         </WrapPanel>
                     </StackPanel>
-                    <DataGrid x:Name="dgTour"/>
-
+                    <DataGrid x:Name="dgTour" AutoGenerateColumns="False"  CanUserAddRows="False" IsReadOnly="True" CanUserDeleteRows="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" Binding="{Binding ID}"/>
+                            <DataGridTextColumn Header="Город" Binding="{Binding City}"/>
+                            <DataGridTextColumn Header="Страна" Binding="{Binding Country}"/>
+                            <DataGridTextColumn Header="Цена" Binding="{Binding Price}"/>
+                            <DataGridTextColumn Header="Статус" Binding="{Binding TourStates.Name}"/>
+                            <DataGridTextColumn Header="Тип" Binding="{Binding TourType.Name}"/>
+                            <DataGridTextColumn Header="Дата отправки" Binding="{Binding Departure, StringFormat=\{0:dd.MM.yyyy\}}"/>
+                            <DataGridTextColumn Header="Дата пребытия" Binding="{Binding Arrival, StringFormat=\{0:dd.MM.yyyy\}}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
                 </StackPanel>
             </TabItem>
             <TabItem Header="Сотрудники">

@@ -13,24 +13,33 @@ namespace TravelAgencyCRM
     {
         public AgencyModel model = new AgencyModel();
         private List<Clients> allAboutClients;
+        private List<Tours> AllTours;
         
         public AdminW()
         {
             InitializeComponent();
-            allAboutClients = model.Clients.Where(x=>x.IsExists == 1).ToList();  
-            Update();
+            allAboutClients = model.Clients.Where(x => x.IsExists == 1).ToList();
+            UpdateClients();
             cmbGender.SelectedIndex = 0;
-        }
-        private void Update()
-        {
-            dgClient.ItemsSource = allAboutClients;
-        }
+            
+            AllTours = model.Tours.Where(x => x.IsExists == 1).ToList();
+            UpdateTours();
 
+            cmbStatus.SelectedIndex = 0;
+            cmbType.SelectedIndex = 0;
+        }
+        
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (tiClient.IsSelected)
+            {
+                UpdateClients();
+            }
+
             if (tiTour.IsSelected)
             {
                 dgTour.Height = this.ActualHeight - wPanel.ActualHeight;
+                UpdateTours();
             }
 
             if (tiTrack.IsSelected)
@@ -39,7 +48,12 @@ namespace TravelAgencyCRM
             }
         }
 
-        public void SearchClient()
+        private void UpdateClients()
+        {
+            dgClient.ItemsSource = allAboutClients;
+        }
+
+        private void SearchClient()
         {
             if (cmbGender.SelectedIndex == 0)
             {
@@ -60,7 +74,7 @@ namespace TravelAgencyCRM
                     )
                     .ToList();
             }
-            Update();
+            UpdateClients();
         }
 
         private void tbName_TextChanged(object sender, TextChangedEventArgs e)
@@ -71,6 +85,30 @@ namespace TravelAgencyCRM
         private void cmbGender_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             SearchClient();
+        }
+
+  
+        private void UpdateTours()
+        {
+            dgTour.ItemsSource = AllTours;
+        }
+        private void SearchTours()
+        {
+
+        }
+        private void cmbStatus_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void cmbType_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void tbCity_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
         }
     }
 }
