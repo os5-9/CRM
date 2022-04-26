@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TravelAgencyCRM"
         mc:Ignorable="d"
-        Title="AdminW" Height="940" Width="1400" MinWidth="1100" MinHeight="800"  WindowStartupLocation="CenterScreen">
+        Title="" Height="940" Width="1400" MinWidth="1100" MinHeight="800"  WindowStartupLocation="CenterScreen">
     <Grid>
         <TabControl SelectionChanged="TabControl_SelectionChanged">
             <TabItem Header="Клиенты" x:Name="tiClient">
@@ -107,19 +107,19 @@
                     </StackPanel>
                     <DataGrid x:Name="dgTour" AutoGenerateColumns="False"  CanUserAddRows="False" IsReadOnly="True" CanUserDeleteRows="False">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="ID" Binding="{Binding ID}"/>
+                            <DataGridTextColumn Header="Номер" Binding="{Binding ID}"/>
                             <DataGridTextColumn Header="Город" Binding="{Binding City}"/>
                             <DataGridTextColumn Header="Страна" Binding="{Binding Country}"/>
                             <DataGridTextColumn Header="Цена" Binding="{Binding Price}"/>
                             <DataGridTextColumn Header="Статус" Binding="{Binding TourStates.Name}"/>
                             <DataGridTextColumn Header="Тип" Binding="{Binding TourType.Name}"/>
                             <DataGridTextColumn Header="Дата отправки" Binding="{Binding Departure, StringFormat=\{0:dd.MM.yyyy\}}"/>
-                            <DataGridTextColumn Header="Дата пребытия" Binding="{Binding Arrival, StringFormat=\{0:dd.MM.yyyy\}}"/>
+                            <DataGridTextColumn Header="Дата прибытия" Binding="{Binding Arrival, StringFormat=\{0:dd.MM.yyyy\}}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </StackPanel>
             </TabItem>
-            <TabItem Header="Сотрудники">
+            <TabItem Header="Сотрудники" x:Name="tiStaff">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="100"/>
@@ -147,7 +147,14 @@
                         </ComboBox>
                         <TextBox Grid.Row="2" Grid.Column="1" Width="auto"/>
                     </Grid>
-                    <DataGrid Grid.Row="1"/>
+                    <DataGrid Grid.Row="1" x:Name="dgStaff" AutoGenerateColumns="False"  CanUserAddRows="False" IsReadOnly="True" CanUserDeleteRows="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Номер" Binding="{Binding ID}"/>
+                            <DataGridTextColumn Header="Город" Binding="{Binding FullName}"/>
+                            <DataGridTextColumn Header="Страна" Binding="{Binding Login}"/>
+                            <DataGridTextColumn Header="Цена" Binding="{Binding Password}"/>
+                 </DataGrid.Columns>
+                    </DataGrid>
                 </Grid>
             </TabItem>  
             <TabItem Header="Поездки" Name="tiTrack">

@@ -3,6 +3,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using TravelAgencyCRM.Models;
+using TravelAgencyCRM.Repositories;
 
 namespace TravelAgencyCRM
 {
@@ -12,19 +13,21 @@ namespace TravelAgencyCRM
     public partial class AdminW : Window
     {
         public AgencyModel model = new AgencyModel();
-        private List<Clients> allAboutClients;
-        private List<Tours> AllTours;
-        
+        private List<Clients> allClients;
+        private List<Tours> allTours;
+        private List<Staff> allStaff;
+        private List<Track> allTracks;
+
         public AdminW()
         {
             InitializeComponent();
-            allAboutClients = model.Clients.Where(x => x.IsExists == 1).ToList();
+            
+            allClients = ClientRepository.GetAllClients();
             UpdateClients();
             cmbGender.SelectedIndex = 0;
             
-            AllTours = model.Tours.Where(x => x.IsExists == 1).ToList();
+            allTours = model.Tours.Where(x => x.IsExists == 1).ToList();
             UpdateTours();
-
             cmbStatus.SelectedIndex = 0;
             cmbType.SelectedIndex = 0;
         }
@@ -42,6 +45,11 @@ namespace TravelAgencyCRM
                 UpdateTours();
             }
 
+            if (tiStaff.IsSelected)
+            {
+                UpdateClients();
+            }
+
             if (tiTrack.IsSelected)
             {
                 dgTrack.Height = this.ActualHeight - (TourPanel.ActualHeight - 180);
@@ -50,29 +58,18 @@ namespace TravelAgencyCRM
 
         private void UpdateClients()
         {
-            dgClient.ItemsSource = allAboutClients;
+            dgClient.ItemsSource = allClients;
         }
 
         private void SearchClient()
         {
             if (cmbGender.SelectedIndex == 0)
             {
-                allAboutClients = model.Clients
-                    .Where(
-                        x => x.FullName.Contains(tbName.Text)
-                        && x.IsExists == 1
-                    )
-                    .ToList();
+                allClients = ClientRepository.SearchClientWithoutGender(tbName.Text);
             }
             else
             {
-                allAboutClients = model.Clients
-                    .Where(
-                        x => x.Gender == ((ComboBoxItem)cmbGender.SelectedItem).Content.ToString()
-                        && x.FullName.Contains(tbName.Text)
-                        && x.IsExists == 1
-                    )
-                    .ToList();
+                allClients = ClientRepository.SearchClientWithGender(((ComboBoxItem)cmbGender.SelectedItem).Content.ToString(), tbName.Text);
             }
             UpdateClients();
         }
@@ -90,7 +87,7 @@ namespace TravelAgencyCRM
   
         private void UpdateTours()
         {
-            dgTour.ItemsSource = AllTours;
+            dgTour.ItemsSource = allTours;
         }
         private void SearchTours()
         {
@@ -110,5 +107,10 @@ namespace TravelAgencyCRM
         {
 
         }
+        private void UpdateStaff()
+        {
+            dgTour.ItemsSource = allTours;
+        }
+       
     }
 }
