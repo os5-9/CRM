@@ -1,14 +1,11 @@
-using System;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
-using System.Linq;
 
 namespace TravelAgencyCRM.Models
 {
     public partial class AgencyModel : DbContext
     {
         public AgencyModel()
-            : base("name=AgencyModel")
+            : base("name=AgencyModelPasha")
         {
         }
 
@@ -27,10 +24,6 @@ namespace TravelAgencyCRM.Models
                 .HasMany(e => e.Track)
                 .WithOptional(e => e.Clients)
                 .HasForeignKey(e => e.ClientID);
-
-            modelBuilder.Entity<Tours>()
-                .Property(e => e.Price)
-                .HasPrecision(19, 4);
 
             modelBuilder.Entity<Tours>()
                 .HasMany(e => e.Track)

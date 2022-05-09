@@ -67,7 +67,7 @@ namespace TravelAgencyCRM
                     case 1:
                         log = $"Авторизация | Авторизация пользователя Директор - {staff.FullName}\n";
                         Logger.Log(log);
-                        AdminWindow window = new AdminWindow();
+                        AdminW window = new AdminW();
                         window.Show();
                         this.Close();
                         break;

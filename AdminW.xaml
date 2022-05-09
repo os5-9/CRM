@@ -60,16 +60,16 @@
                                 <Label Content="Статус путёвки" Canvas.Left="5"/>
                                 <ComboBox x:Name="cmbStatus" Canvas.Left="5" Canvas.Top="40" SelectionChanged="cmbStatus_SelectionChanged">
                                     <ComboBoxItem Content="Все"/>
-                                    <ComboBoxItem Content="Горящая"/>
                                     <ComboBoxItem Content="Обычная"/>
+                                    <ComboBoxItem Content="Горячая"/>
                                 </ComboBox>
                             </Canvas>
                             <Canvas Width="165" Height="80">
                                 <Label Content="Тип" Canvas.Left="5"/>
                                 <ComboBox x:Name="cmbType" Canvas.Top="40" Height="33" Canvas.Left="5" SelectionChanged="cmbType_SelectionChanged" >
                                     <ComboBoxItem Content="Все"/>
+                                    <ComboBoxItem Content="Прямой полет"/>
                                     <ComboBoxItem Content="С пересадками"/>
-                                    <ComboBoxItem Content="Без пересадок"/>
                                 </ComboBox>
                             </Canvas>
                             <Canvas Width="165" Height="80">
@@ -140,20 +140,20 @@
                         </Grid.RowDefinitions>
                         <Label Content="Должность" HorizontalAlignment="Center"/>
                         <Label Content="ФИО" Grid.Column="1" HorizontalAlignment="Center"/>
-                        <ComboBox Height="33" Grid.Row="2" >
+                        <ComboBox x:Name="cmbRole" Height="33" Grid.Row="2" SelectionChanged="cmbRole_SelectionChanged">
                             <ComboBoxItem Content="Все"/>
                             <ComboBoxItem Content="Директор"/>
                             <ComboBoxItem Content="Менеджер"/>
                         </ComboBox>
-                        <TextBox Grid.Row="2" Grid.Column="1" Width="auto"/>
+                        <TextBox x:Name="tbFullName" Grid.Row="2" Grid.Column="1" Width="auto" TextChanged="tbFullName_TextChanged"/>
                     </Grid>
-                    <DataGrid Grid.Row="1" x:Name="dgStaff" AutoGenerateColumns="False"  CanUserAddRows="False" IsReadOnly="True" CanUserDeleteRows="False">
+                    <DataGrid Grid.Row="1" x:Name="dgStaff" AutoGenerateColumns="False"  CanUserAddRows="False" IsReadOnly="True" CanUserDeleteRows="False" ColumnWidth="*">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Номер" Binding="{Binding ID}"/>
-                            <DataGridTextColumn Header="Город" Binding="{Binding FullName}"/>
-                            <DataGridTextColumn Header="Страна" Binding="{Binding Login}"/>
-                            <DataGridTextColumn Header="Цена" Binding="{Binding Password}"/>
-                 </DataGrid.Columns>
+                            <DataGridTextColumn Header="Номер" Binding="{Binding ID}" Width="10*"/>
+                            <DataGridTextColumn Header="ФИО" Binding="{Binding FullName}" Width="50*"/>
+                            <DataGridTextColumn Header="Должность" Binding="{Binding Place}" Width="20*"/>
+                            <DataGridTextColumn Header="Логин" Binding="{Binding Login}" Width="20*"/>
+                        </DataGrid.Columns>
                     </DataGrid>
                 </Grid>
             </TabItem>  

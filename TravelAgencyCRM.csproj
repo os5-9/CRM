@@ -65,7 +65,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Models\ViewModels\StaffViewModel.cs" />
     <Compile Include="Repositories\ClientRepository.cs" />
+    <Compile Include="Repositories\StaffRepository.cs" />
+    <Compile Include="Repositories\TourRepository.cs" />
     <Page Include="AdminW.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
