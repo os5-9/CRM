@@ -25,13 +25,13 @@ namespace TravelAgencyCRM
             InitializeComponent();
 
             allClients = ClientRepository.GetAllClients();
+            cmbGender.SelectedIndex = 0; 
             UpdateClients();
-            cmbGender.SelectedIndex = 0;
 
-            allTours = model.Tours.Where(x => x.IsExists == 1).ToList();
-            UpdateTours();
+            allTours = TourRepository.GetAllTours();// model.Tours.Where(x => x.IsExists == 1).ToList();
             cmbStatus.SelectedIndex = 0;
             cmbType.SelectedIndex = 0;
+            UpdateTours();
 
             allStaff = StaffRepository.GetAllStaff().Select(s => new StaffViewModel
             {
@@ -99,13 +99,47 @@ namespace TravelAgencyCRM
         }
         private void SearchTours()
         {
-
+            allTours = TourRepository.GetAllTours();
+            if ((cmbStatus.SelectedItem != null) && (cmbType.SelectedItem != null))
+            {
+                string status = ((ComboBoxItem)cmbStatus.SelectedItem).Content.ToString();
+                string type = ((ComboBoxItem)cmbType.SelectedItem).Content.ToString();
+                allTours = allTours.Where(
+                        x => x.City.Contains(tbCity.Text)
+                        && x.Country.Contains(tbCountry.Text)
+                        ).ToList();
+                if (cmbStatus.SelectedIndex != 0)
+                {
+                    allTours = allTours.Where(x => x.TourStates.Name.Contains(status)).ToList();
+                }
+                if (cmbType.SelectedIndex != 0)
+                {
+                    allTours = allTours.Where(x => x.TourType.Name.Contains(type)).ToList();
+                }
+                if (!string.IsNullOrEmpty(tbPrice.Text))
+                {
+                    allTours = allTours.Where(x => x.Price < int.Parse(tbPrice.Text.ToString())).ToList();
+                }
+                if ((dpArrivS.SelectedDate != null) && (dpArrivF.SelectedDate != null))
+                {
+                    var arrivS = dpArrivS.SelectedDate.Value;
+                    var arrivF = dpArrivF.SelectedDate.Value;
+                    allTours = allTours.Where(x => (x.Arrival >= arrivS && x.Arrival <= arrivF)).ToList();
+                }
+                if ((dpDeparS.SelectedDate != null) && (dpDeparF.SelectedDate != null))
+                {
+                    var deparS = dpDeparS.SelectedDate.Value;
+                    var deparF = dpDeparF.SelectedDate.Value;
+                    allTours = allTours.Where(x => (x.Departure >= deparS && x.Departure <= deparF)).ToList();
+                }
+            }
+            else
+            {
+                allTours = TourRepository.GetAllTours();
+            }
+            UpdateTours();
         }
         private void cmbStatus_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            SearchTours();
-        }
-        private void cmbType_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             SearchTours();
         }
@@ -113,7 +147,12 @@ namespace TravelAgencyCRM
         {
             SearchTours();
         }
-
+        private void tbPrice_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
+        {
+            if (!char.IsDigit(e.Text, 0))
+                e.Handled = true;
+        }
+        
         private void UpdateStaff()
         {
             dgStaff.ItemsSource = allStaff;
@@ -153,5 +192,7 @@ namespace TravelAgencyCRM
         {
             SearchStaff();
         }
+
+       
     }
 }
