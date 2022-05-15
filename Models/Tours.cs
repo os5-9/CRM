@@ -36,6 +36,8 @@ namespace TravelAgencyCRM.Models
 
         public int? Type { get; set; }
 
+        public int? Tickets { get; set; }
+
         public byte? IsExists { get; set; }
 
         public virtual TourStates TourStates { get; set; }

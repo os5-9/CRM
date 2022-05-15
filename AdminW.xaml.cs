@@ -25,7 +25,7 @@ namespace TravelAgencyCRM
             InitializeComponent();
 
             allClients = ClientRepository.GetAllClients();
-            cmbGender.SelectedIndex = 0; 
+            cmbGender.SelectedIndex = 0;
             UpdateClients();
 
             allTours = TourRepository.GetAllTours();
@@ -42,10 +42,13 @@ namespace TravelAgencyCRM
             });
             cmbRole.SelectedIndex = 0;
             UpdateStaff();
-            
-            allTracks = model.Track.Where(x => x.IsExists == 1);
-            UpdateTrack();
 
+            allTracks = model.Track.Where(x => x.IsExists == 1);
+            cmbGenderTrack.SelectedIndex = 0;
+            cmbStatusTrack.SelectedIndex = 0;
+            cmbTypeTrack.SelectedIndex = 0;
+            cmbRoleTrack.SelectedIndex = 0;
+            UpdateTrack();
         }
 
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)

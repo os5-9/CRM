@@ -21,6 +21,10 @@ namespace TravelAgencyCRM.Models
         [Column(TypeName = "date")]
         public DateTime? ContractDate { get; set; }
 
+        public int? TicketsAmount { get; set; }
+
+        public int? TotalCost { get; set; }
+
         public byte? IsExists { get; set; }
 
         public virtual Clients Clients { get; set; }
@@ -28,6 +32,5 @@ namespace TravelAgencyCRM.Models
         public virtual Staff Staff { get; set; }
 
         public virtual Tours Tours { get; set; }
-
     }
 }
