@@ -106,46 +106,36 @@ namespace TravelAgencyCRM
                 string type = ((ComboBoxItem)cmbType.SelectedItem).Content.ToString();
                 if (!string.IsNullOrEmpty(tbCity.Text))
                 {
-                    var city = tbCity.Text.Substring(0, 1).ToUpper() + tbCity.Text.Substring(1, tbCity.Text.Length - 1);
-                    allTours = allTours.Where(
-                            x => x.City.Contains(city)
-                            ).ToList();
+                    allTours = TourRepository.SearchTourCity(allTours, tbCity.Text);
                 }
                 if (!string.IsNullOrEmpty(tbCountry.Text))
                 {
-                    var country = tbCountry.Text.Substring(0, 1).ToUpper() + tbCountry.Text.Substring(1, tbCountry.Text.Length - 1);
-                    allTours = allTours.Where(
-                            x => x.Country.Contains(country)
-                            ).ToList();
+                    allTours = TourRepository.SearchTourCountry(allTours, tbCountry.Text);
                 }
                 if (cmbStatus.SelectedIndex != 0)
                 {
-                    allTours = allTours.Where(x => x.TourStates.Name.Contains(status)).ToList();
+                    allTours = TourRepository.SearchTourStatus(allTours, status);
                 }
                 if (cmbType.SelectedIndex != 0)
                 {
-                    allTours = allTours.Where(x => x.TourType.Name.Contains(type)).ToList();
+                    allTours = TourRepository.SearchTourType(allTours, type);
                 }
                 if (!string.IsNullOrEmpty(tbPrice.Text))
                 {
-                    allTours = allTours.Where(x => x.Price < int.Parse(tbPrice.Text.ToString())).ToList();
+                    allTours = TourRepository.SearchTourPrice(allTours, int.Parse(tbPrice.Text.ToString()));
                 }
                 if ((dpArrivS.SelectedDate != null) && (dpArrivF.SelectedDate != null))
                 {
                     var arrivS = dpArrivS.SelectedDate.Value;
                     var arrivF = dpArrivF.SelectedDate.Value;
-                    allTours = allTours.Where(x => (x.Arrival >= arrivS && x.Arrival <= arrivF)).ToList();
+                    allTours = TourRepository.SearchTourArrival(allTours, arrivS, arrivF);
                 }
                 if ((dpDeparS.SelectedDate != null) && (dpDeparF.SelectedDate != null))
                 {
                     var deparS = dpDeparS.SelectedDate.Value;
                     var deparF = dpDeparF.SelectedDate.Value;
-                    allTours = allTours.Where(x => (x.Departure >= deparS && x.Departure <= deparF)).ToList();
+                    allTours = TourRepository.SearchTourDeparture(allTours, deparS, deparF);
                 }
-            }
-            else
-            {
-                allTours = TourRepository.GetAllTours();
             }
             UpdateTours();
         }
@@ -202,6 +192,14 @@ namespace TravelAgencyCRM
         {
             SearchStaff();
         }
-       
+        
+        private void UpdateTrack()    
+        {
+            dgStaff.ItemsSource = allStaff;
+        }
+        private void SearchTrack()
+        {
+        }
+
     }
 }
