@@ -15,10 +15,10 @@ namespace TravelAgencyCRM
     public partial class AdminW : Window
     {
         public AgencyModel model = new AgencyModel();
-        private List<Clients> allClients;
-        private List<Tours> allTours;
+        private IEnumerable<Clients> allClients;
+        private IEnumerable<Tours> allTours;
         private IEnumerable<StaffViewModel> allStaff;
-        private List<Track> allTracks;
+        private IEnumerable<Track> allTracks;
 
         public AdminW()
         {
@@ -28,7 +28,7 @@ namespace TravelAgencyCRM
             cmbGender.SelectedIndex = 0; 
             UpdateClients();
 
-            allTours = TourRepository.GetAllTours();// model.Tours.Where(x => x.IsExists == 1).ToList();
+            allTours = TourRepository.GetAllTours();
             cmbStatus.SelectedIndex = 0;
             cmbType.SelectedIndex = 0;
             UpdateTours();
@@ -42,6 +42,10 @@ namespace TravelAgencyCRM
             });
             cmbRole.SelectedIndex = 0;
             UpdateStaff();
+            
+            allTracks = model.Track.Where(x => x.IsExists == 1);
+            UpdateTrack();
+
         }
 
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -65,12 +69,13 @@ namespace TravelAgencyCRM
             if (tiTrack.IsSelected)
             {
                 dgTrack.Height = this.ActualHeight - (TourPanel.ActualHeight - 180);
+                UpdateTrack();
             }
         }
 
         private void UpdateClients()
         {
-            dgClient.ItemsSource = allClients;
+            dgClient.ItemsSource = allClients.ToList();
         }
         private void SearchClient()
         {
@@ -95,7 +100,7 @@ namespace TravelAgencyCRM
 
         private void UpdateTours()
         {
-            dgTour.ItemsSource = allTours;
+            dgTour.ItemsSource = allTours.ToList();
         }
         private void SearchTours()
         {
@@ -155,7 +160,7 @@ namespace TravelAgencyCRM
         
         private void UpdateStaff()
         {
-            dgStaff.ItemsSource = allStaff;
+            dgStaff.ItemsSource = allStaff.ToList();
         }
         private void SearchStaff()
         {
@@ -195,7 +200,7 @@ namespace TravelAgencyCRM
         
         private void UpdateTrack()    
         {
-            dgStaff.ItemsSource = allStaff;
+            dgTrack.ItemsSource = allTracks.ToList();
         }
         private void SearchTrack()
         {

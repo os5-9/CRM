@@ -15,8 +15,6 @@ namespace TravelAgencyCRM.Models
         public virtual DbSet<TourStates> TourStates { get; set; }
         public virtual DbSet<TourType> TourType { get; set; }
         public virtual DbSet<Track> Track { get; set; }
-        public virtual DbSet<Transports> Transports { get; set; }
-        public virtual DbSet<TransportType> TransportType { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -38,16 +36,6 @@ namespace TravelAgencyCRM.Models
             modelBuilder.Entity<TourType>()
                 .HasMany(e => e.Tours)
                 .WithOptional(e => e.TourType)
-                .HasForeignKey(e => e.Type);
-
-            modelBuilder.Entity<Transports>()
-                .HasMany(e => e.Track)
-                .WithOptional(e => e.Transports)
-                .HasForeignKey(e => e.TransportID);
-
-            modelBuilder.Entity<TransportType>()
-                .HasMany(e => e.Transports)
-                .WithOptional(e => e.TransportType)
                 .HasForeignKey(e => e.Type);
         }
     }

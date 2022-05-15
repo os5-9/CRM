@@ -119,8 +119,6 @@
     <Compile Include="Models\TourStates.cs" />
     <Compile Include="Models\TourType.cs" />
     <Compile Include="Models\Track.cs" />
-    <Compile Include="Models\Transports.cs" />
-    <Compile Include="Models\TransportType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

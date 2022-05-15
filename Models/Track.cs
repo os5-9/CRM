@@ -16,8 +16,6 @@ namespace TravelAgencyCRM.Models
 
         public int? ClientID { get; set; }
 
-        public int? TransportID { get; set; }
-
         public int? TourID { get; set; }
 
         [Column(TypeName = "date")]
@@ -31,6 +29,5 @@ namespace TravelAgencyCRM.Models
 
         public virtual Tours Tours { get; set; }
 
-        public virtual Transports Transports { get; set; }
     }
 }
