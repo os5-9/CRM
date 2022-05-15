@@ -40,8 +40,8 @@ namespace TravelAgencyCRM
                 Login = s.Login,
                 Place = s.IsAdmin.Value == 0 ? "Менеджер" : "Директор"
             });
-            UpdateStaff();
             cmbRole.SelectedIndex = 0;
+            UpdateStaff();
         }
 
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -104,10 +104,20 @@ namespace TravelAgencyCRM
             {
                 string status = ((ComboBoxItem)cmbStatus.SelectedItem).Content.ToString();
                 string type = ((ComboBoxItem)cmbType.SelectedItem).Content.ToString();
-                allTours = allTours.Where(
-                        x => x.City.Contains(tbCity.Text)
-                        && x.Country.Contains(tbCountry.Text)
-                        ).ToList();
+                if (!string.IsNullOrEmpty(tbCity.Text))
+                {
+                    var city = tbCity.Text.Substring(0, 1).ToUpper() + tbCity.Text.Substring(1, tbCity.Text.Length - 1);
+                    allTours = allTours.Where(
+                            x => x.City.Contains(city)
+                            ).ToList();
+                }
+                if (!string.IsNullOrEmpty(tbCountry.Text))
+                {
+                    var country = tbCountry.Text.Substring(0, 1).ToUpper() + tbCountry.Text.Substring(1, tbCountry.Text.Length - 1);
+                    allTours = allTours.Where(
+                            x => x.Country.Contains(country)
+                            ).ToList();
+                }
                 if (cmbStatus.SelectedIndex != 0)
                 {
                     allTours = allTours.Where(x => x.TourStates.Name.Contains(status)).ToList();
@@ -192,7 +202,6 @@ namespace TravelAgencyCRM
         {
             SearchStaff();
         }
-
        
     }
 }

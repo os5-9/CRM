@@ -12,7 +12,6 @@ namespace TravelAgencyCRM.Repositories
         private static AgencyModel model = new AgencyModel();
         public static List<Tours> GetAllTours()
         {
-         
             var list = model.Tours
                 .Where(x => x.IsExists == 1)
                 .ToList();
