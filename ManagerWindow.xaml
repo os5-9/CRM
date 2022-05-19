@@ -5,10 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TravelAgencyCRM"
         mc:Ignorable="d"
-        Title="" Height="940" Width="1400" MinWidth="1100" MinHeight="800" WindowStartupLocation="CenterScreen">
+        Title="Окно менеджера" Height="940" Width="1400" MinWidth="1100" MinHeight="800" WindowStartupLocation="CenterScreen">
     <Grid> 
         <TabControl SelectionChanged="TabControl_SelectionChanged">
-            <TabItem Header="Клиенты">
+            <TabItem Header="Клиенты" x:Name="tiClient">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="100"/>
@@ -29,18 +29,30 @@
                         </Grid.RowDefinitions>
                         <Label Content="Пол" HorizontalAlignment="Center"/>
                         <Label Content="Имя" Grid.Column="1" HorizontalAlignment="Center"/>
-                        <ComboBox Height="33" Grid.Row="2" Width="auto" Margin="5,0">
+                        <ComboBox x:Name="cmbGender" Height="33" Grid.Row="2" Width="auto" Margin="5,0" SelectionChanged="cmbGender_SelectionChanged">
                             <ComboBoxItem Content="Все"/>
-                            <ComboBoxItem Content="Мужчина"/>
-                            <ComboBoxItem Content="Женщина"/>
+                            <ComboBoxItem Content="Мужской"/>
+                            <ComboBoxItem Content="Женский"/>
                         </ComboBox>
-                        <TextBox Grid.Row="2" Grid.Column="1" Width="auto" Margin="5,0"/>
+                        <TextBox x:Name="tbClientName" Grid.Row="2" Grid.Column="1" TextChanged="tbClientName_TextChanged" Width="auto" Margin="5,0"/>
                         <Button x:Name="ShowClientHistory" Content="Просмотреть историю" Width="250" Grid.Column="2" Grid.ColumnSpan="3"/>
-                        <Button Content="Добавить" Grid.Column="2" Grid.Row="2"/>
-                        <Button Content="Редактировать" Width="180" Grid.Column="3" Grid.Row="2"/>
-                        <Button Content="Удалить" Grid.Column="4" Grid.Row="2"/>
+                        <Button x:Name="btnAddClient" Content="Добавить" Grid.Column="2" Grid.Row="2"/>
+                        <Button x:Name="btnEditClient" Content="Редактировать" Width="180" Grid.Column="3" Grid.Row="2"/>
+                        <Button x:Name="btnDeleteClient" Content="Удалить" Grid.Column="4" Grid.Row="2"/>
                     </Grid>
-                    <DataGrid Grid.Row="1"/>
+                    <DataGrid x:Name="dgClient" Grid.Row="1" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True" CanUserDeleteRows="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" Binding="{Binding ID}"/>
+                            <DataGridTextColumn Header="ФИО" Binding="{Binding FullName}"/>
+                            <DataGridTextColumn Header="Серия" Binding="{Binding PassportS}"/>
+                            <DataGridTextColumn Header="Номер" Binding="{Binding PassportN}"/>
+                            <DataGridTextColumn Header="Дата рождения" Binding="{Binding BDay, StringFormat=\{0:dd.MM.yyyy\}}"/>
+                            <DataGridTextColumn Header="Адрес" Binding="{Binding Address}"/>
+                            <DataGridTextColumn Header="Пол" Binding="{Binding Gender}"/>
+                            <DataGridTextColumn Header="Номер телефона" Binding="{Binding Msisdn}"/>
+                            <DataGridTextColumn Header="Электронная почта" Binding="{Binding Email}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
                 </Grid>
             </TabItem>
             <TabItem Header="Туры" x:Name="tiTour">
@@ -49,48 +61,60 @@
                         <WrapPanel Grid.Row="0">
                             <Canvas Width="165" Height="80">
                                 <Label Content="Статус путёвки" Canvas.Left="5"/>
-                                <ComboBox x:Name="for_state" Canvas.Left="5" Canvas.Top="40">
-                                    <ComboBoxItem Content="Горящая"/>
-                                    <ComboBoxItem Content="Обычная"/>
+                                <ComboBox x:Name="cmbStatus" SelectionChanged="cmbTour_SelectionChanged" Canvas.Left="5" Canvas.Top="40">
                                     <ComboBoxItem Content="Все"/>
+                                    <ComboBoxItem Content="Обычная"/>
+                                    <ComboBoxItem Content="Горячая"/>
                                 </ComboBox>
                             </Canvas>
                             <Canvas Width="165" Height="80">
                                 <Label Content="Тип" Canvas.Left="5"/>
-                                <ComboBox x:Name="for_type" Canvas.Top="40" Height="33" Canvas.Left="5" >
-                                    <ComboBoxItem Content="С пересадками"/>
-                                    <ComboBoxItem Content="Без пересадок"/>
+                                <ComboBox x:Name="cmbType" SelectionChanged="cmbTour_SelectionChanged" Canvas.Top="40" Height="33" Canvas.Left="5" >
                                     <ComboBoxItem Content="Все"/>
+                                    <ComboBoxItem Content="Прямой полет"/>
+                                    <ComboBoxItem Content="С пересадками"/>
                                 </ComboBox>
                             </Canvas>
                             <Canvas Width="165" Height="80">
                                 <Label Content="Город" Canvas.Left="5"/>
-                                <TextBox x:Name="tb1" Height="33" Canvas.Left="5" FontSize="20" Width="150" Canvas.Top="40"/>
+                                <TextBox x:Name="tbCity" TextChanged="tbTour_TextChanged" Height="33" Canvas.Left="5" FontSize="20" Width="150" Canvas.Top="40"/>
                             </Canvas>
                             <Canvas Width="165" Height="80">
                                 <Label Content="Страна" Canvas.Left="5" Width="81" Height="40" FontSize="20"/>
-                                <TextBox x:Name="tb2" Height="33" Canvas.Left="5" FontSize="20" Width="150" Canvas.Top="40" />
+                                <TextBox x:Name="tbCountry" TextChanged="tbTour_TextChanged" Height="33" Canvas.Left="5" FontSize="20" Width="150" Canvas.Top="40" />
                             </Canvas>
                             <Canvas Width="165" Height="80">
                                 <Label Content="Цена" Canvas.Left="5" Width="66" Height="40" FontSize="20"/>
-                                <TextBox x:Name="tb3"  Height="33" Canvas.Left="5" FontSize="20" Width="150" Canvas.Top="40" />
+                                <TextBox x:Name="tbPrice" TextChanged="tbTour_TextChanged" Height="33" Canvas.Left="5" FontSize="20" Width="150" Canvas.Top="40" />
                             </Canvas>
                             <Canvas Width="310" Height="87">
                                 <Label Content="Дата отправки" Canvas.Left="70" Canvas.Top="2" Width="166" Height="38" FontSize="20"/>
-                                <DatePicker x:Name="arrivalS" Canvas.Left="5" Canvas.Top="40" />
-                                <DatePicker x:Name="arrivalF" Canvas.Left="155" Canvas.Top="40" />
+                                <DatePicker x:Name="dpArrivalS" SelectedDateChanged="dpTour_SelectedDateChanged" Canvas.Left="5" Canvas.Top="40" />
+                                <DatePicker x:Name="dpArrivalF" SelectedDateChanged="dpTour_SelectedDateChanged" Canvas.Left="155" Canvas.Top="40" />
                             </Canvas>
                             <Canvas Width="310" Height="87">
                                 <Label Content="Дата прибытия" Canvas.Left="70" Canvas.Top="0"/>
-                                <DatePicker x:Name="departureS" Canvas.Left="5" Canvas.Top="40"/>
-                                <DatePicker x:Name="departureF" Canvas.Left="155" Canvas.Top="40"/>
+                                <DatePicker x:Name="dpDepartureS" SelectedDateChanged="dpTour_SelectedDateChanged" Canvas.Left="5" Canvas.Top="40"/>
+                                <DatePicker x:Name="dpDepartureF" SelectedDateChanged="dpTour_SelectedDateChanged" Canvas.Left="155" Canvas.Top="40"/>
                             </Canvas>
                         </WrapPanel>
                     </StackPanel>
-                    <DataGrid x:Name="dgTour"/>
+                    <DataGrid x:Name="dgTour" AutoGenerateColumns="False"  CanUserAddRows="False" IsReadOnly="True" CanUserDeleteRows="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Номер" Binding="{Binding ID}"/>
+                            <DataGridTextColumn Header="Город" Binding="{Binding City}"/>
+                            <DataGridTextColumn Header="Страна" Binding="{Binding Country}"/>
+                            <DataGridTextColumn Header="Цена" Binding="{Binding Price}"/>
+                            <DataGridTextColumn Header="Статус" Binding="{Binding TourStates.Name}"/>
+                            <DataGridTextColumn Header="Тип" Binding="{Binding TourType.Name}"/>
+                            <DataGridTextColumn Header="Дата отправки" Binding="{Binding Departure, StringFormat=\{0:dd.MM.yyyy\}}"/>
+                            <DataGridTextColumn Header="Дата прибытия" Binding="{Binding Arrival, StringFormat=\{0:dd.MM.yyyy\}}"/>
+                            <DataGridTextColumn Header="Кол-во билетов" Binding="{Binding Tickets}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
                 </StackPanel>
             </TabItem>
-            <TabItem Header="Поездки">
+            <TabItem Header="Поездки" x:Name="tiTrack">
                 <StackPanel>
                     <StackPanel x:Name="ClientPanel" Height="90">
                         <Grid>
@@ -113,7 +137,7 @@
                                 <ComboBoxItem Content="Мужской"/>
                                 <ComboBoxItem Content="Женский"/>
                             </ComboBox>
-                            <TextBox x:Name="tbClientName" TextChanged="tbTrack_TextChanged" Grid.Row="2" Grid.Column="1" Width="auto"/>
+                            <TextBox x:Name="tbClientNameTrack" TextChanged="tbTrack_TextChanged" Grid.Row="2" Grid.Column="1" Width="auto"/>
                         </Grid>
                     </StackPanel>
                     <StackPanel x:Name="TourPanel">

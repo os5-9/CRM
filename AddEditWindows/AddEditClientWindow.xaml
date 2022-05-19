@@ -1,0 +1,65 @@
+﻿<Window x:Class="TravelAgencyCRM.AddEditWindows.AddEditClientWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TravelAgencyCRM.AddEditWindows"
+        mc:Ignorable="d"
+        Title="Клиент" Height="450" Width="500">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="185"/>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="10"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10"/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition Height="10"/>
+            <RowDefinition/>
+            <RowDefinition Height="10"/>
+        </Grid.RowDefinitions>
+        <TextBlock Text="ФИО" Grid.Row="1" Grid.Column="1"/>
+        <TextBlock Text="Серия паспорта" Grid.Row="2" Grid.Column="1"/>
+        <TextBlock Text="Номер паспорта" Grid.Row="3" Grid.Column="1"/>
+        <TextBlock Text="Дата рождения" Grid.Row="4" Grid.Column="1"/>
+        <TextBlock Text="Адрес" Grid.Row="5" Grid.Column="1"/>
+       
+        <TextBlock Text="Пол" Grid.Row="7" Grid.Column="1"/>
+        <TextBlock Text="Номер телефона" Grid.Row="8" Grid.Column="1"/>
+        <TextBlock Text="Электронная почта" Grid.Row="9" Grid.Column="1"/>
+        <TextBox Grid.Row="1" Grid.Column="3" Width="auto"/>
+        <TextBox Grid.Row="2" Grid.Column="3" MaxLength="4" Width="auto"/>
+        <TextBox Grid.Row="3" Grid.Column="3" MaxLength="6" Width="auto"/>
+        <DatePicker Grid.Row="4" Grid.Column="3" FontSize="24"/>
+        <StackPanel Orientation="Horizontal" Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="3" Width="auto">
+            <ComboBox Width="100">
+                <ComboBoxItem Content="улица"/>
+                <ComboBoxItem Content="проспект"/>
+                <ComboBoxItem Content="бульвар"/>
+                <ComboBoxItem Content="переулок"/> 
+            </ComboBox>
+            <TextBox Width="180"/>
+            <TextBlock Text="дом"/>
+            <TextBox Width="40"/>
+            <TextBlock Text="квартира"/>
+            <TextBox Width="40"/>
+        </StackPanel>
+        <ComboBox Grid.Row="7" Grid.Column="3" Width="auto">
+            <ComboBoxItem Content="Женский"/>
+            <ComboBoxItem Content="Мужской"/>
+        </ComboBox>
+        <TextBox Grid.Row="8" Grid.Column="3" Width="auto"/>
+        <TextBox Grid.Row="9" Grid.Column="3" Width="auto"/>
+    </Grid>
+</Window>

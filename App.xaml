@@ -27,6 +27,9 @@
             <Setter Property="Height" Value="40" />
             <Setter Property="FontSize" Value="20"/>
         </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="FontSize" Value="20"/>
+        </Style>
         <Style TargetType="TextBox">
             <!--<Setter Property="FontFamily" Value="Comic Sans MS"/>-->
             <Setter Property="Height" Value="33" />

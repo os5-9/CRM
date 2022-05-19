@@ -14,7 +14,7 @@ namespace TravelAgencyCRM
     /// </summary>
     public partial class AdminW : Window
     {
-        public AgencyModel model = new AgencyModel();
+      //  public AgencyModel model = new AgencyModel();
         private IEnumerable<Clients> allClients;
         private IEnumerable<Tours> allTours;
         private IEnumerable<StaffViewModel> allStaff;
@@ -43,7 +43,7 @@ namespace TravelAgencyCRM
             cmbRole.SelectedIndex = 0;
             UpdateStaff();
 
-            allTracks = model.Track.Where(x => x.IsExists == 1);
+            allTracks = TrackRepository.GetAllTrack();
             cmbGenderTrack.SelectedIndex = 0;
             cmbStatusTrack.SelectedIndex = 0;
             cmbTypeTrack.SelectedIndex = 0;
@@ -207,7 +207,7 @@ namespace TravelAgencyCRM
         }
         private void SearchTrack()
         {
-            allTracks = model.Track.Where(x => x.IsExists == 1);
+            allTracks = TrackRepository.GetAllTrack();
 
             if ((cmbStatusTrack.SelectedItem != null) && (cmbTypeTrack.SelectedItem != null) && (cmbGenderTrack.SelectedItem != null) && (cmbRoleTrack.SelectedItem != null))
             {
