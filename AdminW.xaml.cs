@@ -132,17 +132,17 @@ namespace TravelAgencyCRM
                 {
                     allTours = TourRepository.SearchTourPrice(allTours, int.Parse(tbPrice.Text.ToString()));
                 }
-                if ((dpArrivS.SelectedDate != null) && (dpArrivF.SelectedDate != null))
+                if ((dpArrivalS.SelectedDate != null) && (dpArrivalF.SelectedDate != null))
                 {
-                    var arrivS = dpArrivS.SelectedDate.Value;
-                    var arrivF = dpArrivF.SelectedDate.Value;
-                    allTours = TourRepository.SearchTourArrival(allTours, arrivS, arrivF);
+                    var arrivalS = dpArrivalS.SelectedDate.Value;
+                    var arrivalF = dpArrivalF.SelectedDate.Value;
+                    allTours = TourRepository.SearchTourarrivalal(allTours, arrivalS, arrivalF);
                 }
-                if ((dpDeparS.SelectedDate != null) && (dpDeparF.SelectedDate != null))
+                if ((dpDepartureS.SelectedDate != null) && (dpDepartureF.SelectedDate != null))
                 {
-                    var deparS = dpDeparS.SelectedDate.Value;
-                    var deparF = dpDeparF.SelectedDate.Value;
-                    allTours = TourRepository.SearchTourDeparture(allTours, deparS, deparF);
+                    var departureS = dpDepartureS.SelectedDate.Value;
+                    var departureF = dpDepartureF.SelectedDate.Value;
+                    allTours = TourRepository.SearchTourdepartureture(allTours, departureS, departureF);
                 }
             }
             UpdateTours();
@@ -207,7 +207,77 @@ namespace TravelAgencyCRM
         }
         private void SearchTrack()
         {
-        }
+            allTracks = model.Track.Where(x => x.IsExists == 1);
 
+            if ((cmbStatusTrack.SelectedItem != null) && (cmbTypeTrack.SelectedItem != null) && (cmbGenderTrack.SelectedItem != null) && (cmbRoleTrack.SelectedItem != null))
+            {
+                string status = ((ComboBoxItem)cmbStatusTrack.SelectedItem).Content.ToString();
+                string type = ((ComboBoxItem)cmbTypeTrack.SelectedItem).Content.ToString();
+                string gender = ((ComboBoxItem)cmbGenderTrack.SelectedItem).Content.ToString();
+                byte role = (byte)((cmbRoleTrack.SelectedItem as ComboBoxItem).Content.ToString() == "Директор" ? 1 : 0);
+
+                if (cmbGenderTrack.SelectedIndex != 0)
+                {
+                    allTracks = allTracks.Where(x => x.Clients.Gender == gender);
+                }
+                if (!string.IsNullOrEmpty(tbClientName.Text))
+                {
+                    allTracks = allTracks.Where(x => x.Clients.FullName.ToLower().Contains(tbClientName.Text.ToLower()));
+                }
+                if (cmbStatusTrack.SelectedIndex != 0)
+                {
+                    allTracks = allTracks.Where(x => x.Tours.TourStates.Name.Contains(status));
+                }
+                if (cmbTypeTrack.SelectedIndex != 0)
+                {
+                    allTracks = allTracks.Where(x => x.Tours.TourType.Name.Contains(type));
+                }
+                if (!string.IsNullOrEmpty(tbCityTrack.Text))
+                {
+                    allTracks = allTracks.Where(x => x.Tours.City.ToLower().Contains(tbCityTrack.Text.ToLower()));
+                }
+                if (!string.IsNullOrEmpty(tbCountryTrack.Text))
+                {
+                    allTracks = allTracks.Where(x => x.Tours.Country.ToLower().Contains(tbCountryTrack.Text.ToLower()));
+                }
+                if (!string.IsNullOrEmpty(tbPriceTrack.Text))
+                {
+                    allTracks = allTracks.Where(x => x.Tours.Price <= int.Parse(tbPriceTrack.Text));
+                }
+                if ((dpArrivalSTrack.SelectedDate != null) && (dpArrivalFTrack.SelectedDate != null))
+                {
+                    var arrivalS = dpArrivalSTrack.SelectedDate.Value;
+                    var arrivalF = dpArrivalFTrack.SelectedDate.Value;
+                    allTracks = allTracks.Where(x => (x.Tours.Arrival >= arrivalS && x.Tours.Arrival <= arrivalF));
+                }
+                if ((dpDepartureSTrack.SelectedDate != null) && (dpDepartureFTrack.SelectedDate != null))
+                {
+                    var departureS = dpDepartureSTrack.SelectedDate.Value;
+                    var departureF = dpDepartureFTrack.SelectedDate.Value;
+                    allTracks = allTracks.Where(x => (x.Tours.Departure >= departureS && x.Tours.Departure <= departureF));
+                }
+                if (cmbRoleTrack.SelectedIndex != 0)
+                {
+                    allTracks = allTracks.Where(x => x.Staff.IsAdmin == role);
+                }
+                if (!string.IsNullOrEmpty(tbStaffFIO.Text))
+                {
+                    allTracks = allTracks.Where(x => x.Staff.FullName.ToLower().Contains(tbStaffFIO.Text.ToLower()));
+                }
+            }
+            UpdateTrack();
+        }
+        private void cmbTrack_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            SearchTrack();
+        }
+        private void tbTrack_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            SearchTrack();
+        }
+        private void dpTrack_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            SearchTrack();
+        }
     }
 }

@@ -5,7 +5,7 @@ namespace TravelAgencyCRM.Models
     public partial class AgencyModel : DbContext
     {
         public AgencyModel()
-            : base("name=AgencyModelHome")
+            : base("name=AgencyModelLocal")
         {
         }
 
