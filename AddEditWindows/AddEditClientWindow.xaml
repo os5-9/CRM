@@ -59,8 +59,7 @@
             <ComboBoxItem Content="Женский"/>
             <ComboBoxItem Content="Мужской"/>
         </ComboBox>
-        <TextBox Grid.Row="8" Grid.Column="3" Width="auto" Text="{Binding Msisdn, StringFormat={}{0:+7(###)###-##-##}}"/>
+        <TextBox Grid.Row="8" Grid.Column="3" Width="auto"/>
         <TextBox Grid.Row="9" Grid.Column="3" Width="auto"/>
- 
     </Grid>
 </Window>
