@@ -142,7 +142,9 @@ namespace TravelAgencyCRM
             var selected = (Tours)dgTour.SelectedItem;
             if (selected != null)
             {
-                int procent = 10;
+                TourProcent tour = new TourProcent();
+                tour.ShowDialog();
+                int procent = TourRepository.Procent;
                 TourRepository.ApproveTour(selected.ID, procent);
                 UpdateTours();
             }

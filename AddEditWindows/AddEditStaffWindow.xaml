@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:TravelAgencyCRM.AddEditWindows" 
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
-        Title="" Height="300" Width="500" MinHeight="300" MinWidth="450" MaxHeight="350" MaxWidth="650">
+        Title="" Height="300" Width="500" MinHeight="300" MinWidth="450" MaxHeight="350" MaxWidth="650" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10"/>

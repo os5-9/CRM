@@ -89,6 +89,9 @@
     <Compile Include="AddEditWindows\AddEditStaffWindow.xaml.cs">
       <DependentUpon>AddEditStaffWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AddEditWindows\TourProcent.xaml.cs">
+      <DependentUpon>TourProcent.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Models\Operators.cs" />
     <Compile Include="Models\ViewModels\StaffViewModel.cs" />
     <Compile Include="MyContextInitializer.cs" />
@@ -102,6 +105,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="AddEditWindows\AddEditStaffWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AddEditWindows\TourProcent.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

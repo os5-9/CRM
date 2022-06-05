@@ -8,6 +8,8 @@ namespace TravelAgencyCRM.Repositories
     public static class TourRepository
     {
         private static AgencyModel model = new AgencyModel();
+        public static int Procent { get; set; }
+
         public static IEnumerable<Tours> GetAllTours()
         {
             var list = model.Tours.Where(x => x.IsExists == 1 && x.IsApproved == 1);
