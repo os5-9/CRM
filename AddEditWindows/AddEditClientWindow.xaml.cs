@@ -4,6 +4,7 @@ using System.Text;
 using System.Windows;
 using System.Windows.Input;
 using TravelAgencyCRM.Models;
+using TravelAgencyCRM.Repositories;
 
 namespace TravelAgencyCRM.AddEditWindows
 {
@@ -14,7 +15,6 @@ namespace TravelAgencyCRM.AddEditWindows
     {
         private AgencyModel model = new AgencyModel();
         private Clients currentClient;
-        private static string log;
 
         public AddEditClientWindow(Clients movedClient)
         {
@@ -40,6 +40,7 @@ namespace TravelAgencyCRM.AddEditWindows
                 this.Title = $"Редактирование клиента {currentClient.FullName}";
                 spAddress.Visibility = Visibility.Collapsed;
                 tbAddress.Visibility = Visibility.Visible;
+                dpBDay.SelectedDate = currentClient.BDay; 
             }
             DataContext = currentClient;
         }
@@ -57,14 +58,6 @@ namespace TravelAgencyCRM.AddEditWindows
             {
                 errors.AppendLine("Введите ФИО клиента");
             }
-            if (string.IsNullOrEmpty(tbPasS.Text))
-            {
-                errors.AppendLine("Введите серию паспорта");
-            }
-            if (string.IsNullOrEmpty(tbPasN.Text))
-            {
-                errors.AppendLine("Введите номер паспорта");
-            }
             if (dpBDay.SelectedDate == null)
             {
                 errors.AppendLine("Выберите дату рождения");
@@ -73,21 +66,18 @@ namespace TravelAgencyCRM.AddEditWindows
             {
                 errors.AppendLine("Выберите пол");
             }
-            if (string.IsNullOrEmpty(tbMsisdn.Text))
+            if (tbMsisdn.Text == "")
             {
                 errors.AppendLine("Введите номер телефона");
-            }        
-            if (string.IsNullOrEmpty(tbEmail.Text))
-            {
-                errors.AppendLine("Введите электронную почту");
             }
+           
             if (!new EmailAddressAttribute().IsValid(tbEmail.Text))
             {
                 errors.AppendLine("Введите корректную электронную почту");
             }
             if (currentClient.ID == 0)
             {
-                if (cmbGender.SelectedItem == null)
+                if (cmbTypeAddress.SelectedItem == null)
                 {
                     errors.AppendLine("Выберите тип адреса (улица, проспект и т.д.)");
                 }
@@ -108,11 +98,18 @@ namespace TravelAgencyCRM.AddEditWindows
                     errors.AppendLine("Введите адрес");
                 }
             }
+            //            if (dpBDay.SelectedDate != null) {
+            //                DateTime yer = (DateTime)dpBDay.SelectedDate;
+            //                DateTime t = DateTime.Now.Date;
+            //                DateTime y = t - yer;
+            //                if (t. >= 14)
+            //                {
 
+            //                }
+            //}
             if (errors.Length > 0)
             {
                 MessageBox.Show(errors.ToString());
-                log = $"Добавление-Изменение клиента | Не пройдена валидация {errors}";
                 return false;
             }
             else
@@ -121,7 +118,6 @@ namespace TravelAgencyCRM.AddEditWindows
             }
         }
 
-
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
             ManagerWindow managerWindow = new ManagerWindow();
@@ -129,17 +125,35 @@ namespace TravelAgencyCRM.AddEditWindows
             this.Close();
         }
 
-        private async void btnSave_Click(object sender, RoutedEventArgs e)
+        private void btnSave_Click(object sender, RoutedEventArgs e)
         {
             if (Validation())
             {
-
+                currentClient.Gender = cmbGender.Text;
+                currentClient.IsExists = 1;
+                if (currentClient.ID == 0)
+                {
+                    ClientRepository.AddClient(currentClient);
+                }
+                else
+                {
+                    ClientRepository.EditClient();
+                }
+                btnCancel_Click(sender,e);
             }
             else
             {
-               await Logger.Log(log);
                 return;
             }
+        }
+
+        private void tbCertificate_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+#warning Написать нормальную маску
+            //if (e.Text == "-")
+            //{
+            //    tb
+            //}
         }
     }
 }

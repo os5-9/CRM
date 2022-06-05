@@ -4,9 +4,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TravelAgencyCRM.AddEditWindows" 
-xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
-        Title="" Height="520" Width="560" WindowStartupLocation="CenterScreen">
+        Title="" Height="520" Width="560" WindowStartupLocation="CenterScreen" MinHeight="520" MinWidth="560" MaxHeight="560" MaxWidth="700">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10"/>
@@ -40,13 +40,14 @@ xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         <TextBlock Text="Пол" Grid.Row="8" Grid.Column="1" VerticalAlignment="Center"/>
         <TextBlock Text="Номер телефона" Grid.Row="9" Grid.Column="1" VerticalAlignment="Center"/>
         <TextBlock Text="Электронная почта" Grid.Row="10" Grid.Column="1" VerticalAlignment="Center"/>
-        <TextBox x:Name="tbFIO" Grid.Row="1" Grid.Column="3" Width="auto"/> 
-        <DatePicker x:Name="dpBDay" Grid.Row="2" Grid.Column="3" FontSize="24"/>
-        <TextBox x:Name="tbPasS" Grid.Row="3" Grid.Column="3" MaxLength="4" Width="auto" PreviewTextInput="ControlForDigit"/>
-        <TextBox x:Name="tbCertificate" Grid.Row="5" Grid.Column="3" MaxLength="13" Width="auto" PreviewTextInput="ControlForDigit"/>
-        <TextBox x:Name="tbPasN" Grid.Row="4" Grid.Column="3" MaxLength="6" Width="auto" PreviewTextInput="ControlForDigit"/>
+        
+        <TextBox x:Name="tbFIO" Grid.Row="1" Grid.Column="3" Width="auto" Text="{Binding FullName}"/>
+        <DatePicker x:Name="dpBDay" Grid.Row="2" Grid.Column="3" SelectedDate="{Binding BDay}"/>
+        <TextBox x:Name="tbPasS" Grid.Row="3" Grid.Column="3" MaxLength="4" Width="auto" PreviewTextInput="ControlForDigit" Text="{Binding PassportS}"/>
+        <TextBox x:Name="tbPasN" Grid.Row="4" Grid.Column="3" MaxLength="6" Width="auto" PreviewTextInput="ControlForDigit" Text="{Binding PassportN}"/>
+        <xctk:MaskedTextBox x:Name="tbCertificate" Mask="L??-LL 000000" Grid.Row="5" Grid.Column="3" MaxLength="13" Width="auto" Text="{Binding BirthCertificateNumber}" PreviewTextInput="tbCertificate_PreviewTextInput"/>
         <StackPanel x:Name="spAddress" Orientation="Horizontal" Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="3" Width="auto">
-            <ComboBox x:Name="cmbTypeAddress" Width="100">
+            <ComboBox x:Name="cmbTypeAddress" Width="120">
                 <ComboBoxItem Content="улица"/>
                 <ComboBoxItem Content="проспект"/>
                 <ComboBoxItem Content="бульвар"/>
@@ -58,14 +59,14 @@ xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
             <TextBlock Text="квартира"/>
             <TextBox x:Name="tbFlat" Width="40" PreviewTextInput="ControlForDigit"/>
         </StackPanel>
-        <TextBox Visibility="Collapsed" x:Name="tbAddress" Text="{Binding Address}" Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="3" Width="auto"/>
+        <TextBox Visibility="Collapsed" x:Name="tbAddress" Text="{Binding Address}" Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="3" Width="auto"/>
         <ComboBox x:Name="cmbGender" Grid.Row="8" Grid.Column="3" Width="auto">
             <ComboBoxItem Content="Женский"/>
             <ComboBoxItem Content="Мужской"/>
         </ComboBox>
-    
-        <xctk:MaskedTextBox x:Name="tbMsisdn" Grid.Row="9" Grid.Column="3" Width="auto" Text="{Binding Msisdn}" PreviewTextInput="ControlForDigit"/>
-        <TextBox x:Name="tbEmail" Grid.Row="10" Grid.Column="3" Width="auto"/>
+        <xctk:MaskedTextBox x:Name="tbMsisdn" Grid.Row="9" Grid.Column="3" Width="auto" Text="{Binding Msisdn}" Mask="+7(000)-000-00-00" PreviewTextInput="ControlForDigit"/>
+        <TextBox x:Name="tbEmail" Grid.Row="10" Grid.Column="3" Width="auto" Text="{Binding Email}"/>
+        
         <Button x:Name="btnCancel" Content="Отменить" Click="btnCancel_Click" Grid.Column="1" Grid.Row="12"/>
         <Button x:Name="btnSave" Content="Сохранить" Click="btnSave_Click" Grid.Column="3" Grid.Row="12"/>
     </Grid>

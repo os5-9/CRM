@@ -32,7 +32,7 @@ namespace TravelAgencyCRM.Models
         [StringLength(7)]
         public string Gender { get; set; }
 
-        [StringLength(16)]
+        [StringLength(17)]
         public string Msisdn { get; set; }
 
         [StringLength(50)]

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using TravelAgencyCRM.AddEditWindows;
 using TravelAgencyCRM.Models;
 using TravelAgencyCRM.Repositories;
 
@@ -60,7 +61,12 @@ namespace TravelAgencyCRM
                 UpdateTrack();
             }
         }
-
+        private void Datagrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            e.Handled = true;
+        }
+        
+        #region Client
         private void UpdateClients()
         {
             dgClient.ItemsSource = allClients.ToList();
@@ -85,7 +91,16 @@ namespace TravelAgencyCRM
         {
             SearchClient();
         }
+        private void btnAddClient_Click(object sender, RoutedEventArgs e)
+        {
+            AddEditClientWindow window = new AddEditClientWindow(null);
+            window.Show();
+            this.Close();
+        }
 
+        #endregion
+
+        #region Tours
         private void UpdateTours()
         {
             dgTour.ItemsSource = allTours.ToList();
@@ -149,7 +164,9 @@ namespace TravelAgencyCRM
             if (!char.IsDigit(e.Text, 0))
                 e.Handled = true;
         }
+        #endregion
 
+        #region Track
         private void UpdateTrack()
         {
             dgTrack.ItemsSource = allTracks.ToList();
@@ -223,5 +240,21 @@ namespace TravelAgencyCRM
         {
             SearchTrack();
         }
-    } 
+        #endregion
+
+        private void btnEditClient_Click(object sender, RoutedEventArgs e)
+        {
+            var selected = (Clients)dgClient.SelectedItem;
+            if (selected != null)
+            {
+                AddEditClientWindow window = new AddEditClientWindow(selected);
+                window.Show();
+                this.Close();
+            }
+            else
+            {
+                MessageBox.Show("Выберите  для редактирования");
+            }
+        }
+    }
 }

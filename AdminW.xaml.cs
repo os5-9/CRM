@@ -15,7 +15,6 @@ namespace TravelAgencyCRM
     /// </summary>
     public partial class AdminW : Window
     {
-        //  public AgencyModel model = new AgencyModel();
         private IEnumerable<Tours> allTours;
         private IEnumerable<StaffViewModel> allStaff;
         private IEnumerable<Operators> allOperators;
@@ -77,7 +76,7 @@ namespace TravelAgencyCRM
             e.Handled = true;
         }
 
-        // Handlers for Tour
+        #region Handlers for Tour
         private void UpdateTours()
         {
             dgTour.ItemsSource = allTours.ToList();
@@ -169,8 +168,9 @@ namespace TravelAgencyCRM
                 MessageBox.Show("Выберите тур для отклонения");
             }
         }
+        #endregion
 
-        // Handlers for Staff
+        #region Handlers for Staff
         private void UpdateStaff()
         {
             dgStaff.ItemsSource = allStaff.ToList();
@@ -298,8 +298,9 @@ namespace TravelAgencyCRM
                 MessageBox.Show("Выберите сотрудника для редактирования");
             }
         }
+        #endregion
 
-        // Handlers for Waiting for approve operators
+        #region Handlers for Waiting for approve operators
         private void UpdateWaitOperators()
         {
             dgWaitingOperators.ItemsSource = allWaitingOperators.ToList();
@@ -333,8 +334,9 @@ namespace TravelAgencyCRM
                 MessageBox.Show("Выберите оператора для отклонения");
             }
         }
+        #endregion
 
-        // Handlers for approved operators
+        #region Handlers for approved operators
         private void UpdateOperators()
         {
             dgOperators.ItemsSource = allOperators.ToList();
@@ -355,5 +357,6 @@ namespace TravelAgencyCRM
                 MessageBox.Show("Выберите оператора для блокирования");
             }
         }
+        #endregion
     }
 }

@@ -14,6 +14,16 @@ namespace TravelAgencyCRM.Repositories
             return list;
         }
 
+        public static void AddClient(Clients client)
+        {
+            model.Clients.Add(client);
+            model.SaveChanges();
+        }
+        public static void EditClient()
+        {
+            model.SaveChanges();
+        }
+
         public static IEnumerable<Clients> SearchClientWithoutGender(string fullName)
         {
             var list = model.Clients

@@ -34,22 +34,21 @@
                             <ComboBoxItem Content="Женский"/>
                         </ComboBox>
                         <TextBox x:Name="tbClientName" Grid.Row="2" Grid.Column="1" TextChanged="tbClientName_TextChanged" Width="auto" Margin="5,0"/>
-                        <Button x:Name="ShowClientHistory" Content="Просмотреть историю" Width="250" Grid.Column="2" Grid.ColumnSpan="3"/>
-                        <Button x:Name="btnAddClient" Content="Добавить" Grid.Column="2" Grid.Row="2"/>
-                        <Button x:Name="btnEditClient" Content="Редактировать" Width="180" Grid.Column="3" Grid.Row="2"/>
-                        <Button x:Name="btnDeleteClient" Content="Удалить" Grid.Column="4" Grid.Row="2"/>
+                        <Button x:Name="ShowClientHistory" Content="Просмотреть историю" Width="250" Grid.Column="4" Grid.Row="2"/>
+                        <Button x:Name="btnAddClient" Content="Добавить" Grid.Column="2" Grid.Row="2" Click="btnAddClient_Click"/>
+                        <Button x:Name="btnEditClient" Content="Редактировать" Width="180" Grid.Column="3" Grid.Row="2" Click="btnEditClient_Click"/>
                     </Grid>
-                    <DataGrid x:Name="dgClient" Grid.Row="1" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True" CanUserDeleteRows="False">
+                    <DataGrid x:Name="dgClient" Grid.Row="1" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True" CanUserDeleteRows="False" SelectionChanged="Datagrid_SelectionChanged">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="ID" Binding="{Binding ID}"/>
-                            <DataGridTextColumn Header="ФИО" Binding="{Binding FullName}"/>
-                            <DataGridTextColumn Header="Серия" Binding="{Binding PassportS}"/>
-                            <DataGridTextColumn Header="Номер" Binding="{Binding PassportN}"/>
-                            <DataGridTextColumn Header="Дата рождения" Binding="{Binding BDay, StringFormat=\{0:dd.MM.yyyy\}}"/>
-                            <DataGridTextColumn Header="Адрес" Binding="{Binding Address}"/>
-                            <DataGridTextColumn Header="Пол" Binding="{Binding Gender}"/>
-                            <DataGridTextColumn Header="Номер телефона" Binding="{Binding Msisdn}"/>
-                            <DataGridTextColumn Header="Электронная почта" Binding="{Binding Email}"/>
+                            <DataGridTextColumn Header="ФИО (⇅)" Binding="{Binding FullName}"/>
+                            <DataGridTextColumn Header="Дата рождения (⇅)" Binding="{Binding BDay, StringFormat=\{0:dd.MM.yyyy\}}"/>
+                            <DataGridTextColumn Header="Адрес (⇅)" Binding="{Binding Address}"/>
+                            <DataGridTextColumn Header="Пол (⇅)" Binding="{Binding Gender}"/>
+                            <DataGridTextColumn Header="Номер телефона (⇅)" Binding="{Binding Msisdn}"/>
+                            <DataGridTextColumn Header="Электронная почта (⇅)" Binding="{Binding Email}"/> 
+                            <DataGridTextColumn Header="Серия (⇅)" Binding="{Binding PassportS}"/>
+                            <DataGridTextColumn Header="Номер (⇅)" Binding="{Binding PassportN}"/>
+                            <DataGridTextColumn Header="Свидетельство о рождении (⇅)" Binding="{Binding BirthCertificateNumber}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </Grid>
@@ -98,17 +97,16 @@
                             </Canvas>
                         </WrapPanel>
                     </StackPanel>
-                    <DataGrid x:Name="dgTour" AutoGenerateColumns="False"  CanUserAddRows="False" IsReadOnly="True" CanUserDeleteRows="False">
+                    <DataGrid x:Name="dgTour" AutoGenerateColumns="False"  CanUserAddRows="False" IsReadOnly="True" CanUserDeleteRows="False" SelectionChanged="Datagrid_SelectionChanged">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Номер" Binding="{Binding ID}"/>
-                            <DataGridTextColumn Header="Город" Binding="{Binding City}"/>
-                            <DataGridTextColumn Header="Страна" Binding="{Binding Country}"/>
-                            <DataGridTextColumn Header="Цена" Binding="{Binding Price}"/>
-                            <DataGridTextColumn Header="Статус" Binding="{Binding TourStates.Name}"/>
-                            <DataGridTextColumn Header="Тип" Binding="{Binding TourType.Name}"/>
-                            <DataGridTextColumn Header="Дата отправки" Binding="{Binding Departure, StringFormat=\{0:dd.MM.yyyy\}}"/>
-                            <DataGridTextColumn Header="Дата прибытия" Binding="{Binding Arrival, StringFormat=\{0:dd.MM.yyyy\}}"/>
-                            <DataGridTextColumn Header="Кол-во билетов" Binding="{Binding Tickets}"/>
+                            <DataGridTextColumn Header="Город (⇅)" Binding="{Binding City}"/>
+                            <DataGridTextColumn Header="Страна (⇅)" Binding="{Binding Country}"/>
+                            <DataGridTextColumn Header="Цена (⇅)" Binding="{Binding Price}"/>
+                            <DataGridTextColumn Header="Статус (⇅)" Binding="{Binding TourStates.Name}"/>
+                            <DataGridTextColumn Header="Тип (⇅)" Binding="{Binding TourType.Name}"/>
+                            <DataGridTextColumn Header="Дата отправки (⇅)" Binding="{Binding Departure, StringFormat=\{0:dd.MM.yyyy\}}"/>
+                            <DataGridTextColumn Header="Дата прибытия (⇅)" Binding="{Binding Arrival, StringFormat=\{0:dd.MM.yyyy\}}"/>
+                            <DataGridTextColumn Header="Кол-во билетов (⇅)" Binding="{Binding Tickets}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </StackPanel>
@@ -190,7 +188,7 @@
                         </StackPanel>
                     </StackPanel>
 
-                    <DataGrid x:Name="dgTrack" AutoGenerateColumns="False"  CanUserAddRows="False" IsReadOnly="True" CanUserDeleteRows="False">
+                    <DataGrid x:Name="dgTrack" AutoGenerateColumns="False"  CanUserAddRows="False" IsReadOnly="True" CanUserDeleteRows="False" SelectionChanged="Datagrid_SelectionChanged">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Номер договора (⇅)" Binding="{Binding ID}"/>
                             <DataGridTextColumn Header="Имя сотрудника (⇅)" Binding="{Binding Staff.FullName}"/>
