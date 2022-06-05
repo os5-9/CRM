@@ -3,13 +3,14 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:TravelAgencyCRM.AddEditWindows"
+        xmlns:local="clr-namespace:TravelAgencyCRM.AddEditWindows" 
+xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
-        Title="Клиент" Height="450" Width="500">
+        Title="" Height="520" Width="560">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10"/>
-            <ColumnDefinition Width="185"/>
+            <ColumnDefinition Width="270"/>
             <ColumnDefinition Width="10"/>
             <ColumnDefinition/>
             <ColumnDefinition Width="10"/>
@@ -25,41 +26,47 @@
             <RowDefinition/>
             <RowDefinition/>
             <RowDefinition/>
+            <RowDefinition/>
             <RowDefinition Height="10"/>
             <RowDefinition/>
             <RowDefinition Height="10"/>
         </Grid.RowDefinitions>
-        <TextBlock Text="ФИО" Grid.Row="1" Grid.Column="1"/>
-        <TextBlock Text="Серия паспорта" Grid.Row="2" Grid.Column="1"/>
-        <TextBlock Text="Номер паспорта" Grid.Row="3" Grid.Column="1"/>
-        <TextBlock Text="Дата рождения" Grid.Row="4" Grid.Column="1"/>
-        <TextBlock Text="Адрес" Grid.Row="5" Grid.Column="1"/>
-       
-        <TextBlock Text="Пол" Grid.Row="7" Grid.Column="1"/>
-        <TextBlock Text="Номер телефона" Grid.Row="8" Grid.Column="1"/>
-        <TextBlock Text="Электронная почта" Grid.Row="9" Grid.Column="1"/>
-        <TextBox Grid.Row="1" Grid.Column="3" Width="auto"/>
-        <TextBox Grid.Row="2" Grid.Column="3" MaxLength="4" Width="auto"/>
-        <TextBox Grid.Row="3" Grid.Column="3" MaxLength="6" Width="auto"/>
-        <DatePicker Grid.Row="4" Grid.Column="3" FontSize="24"/>
-        <StackPanel Orientation="Horizontal" Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="3" Width="auto">
-            <ComboBox Width="100">
+        <TextBlock Text="ФИО" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center"/>
+        <TextBlock Text="Дата рождения" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center"/>
+        <TextBlock Text="Серия паспорта" Grid.Row="3" Grid.Column="1" VerticalAlignment="Center"/>
+        <TextBlock Text="Номер паспорта" Grid.Row="4" Grid.Column="1" VerticalAlignment="Center"/>
+        <TextBlock Text="Серия номер свидетельства" Grid.Row="5" Grid.Column="1" VerticalAlignment="Center"/>
+        <TextBlock Text="Адрес" Grid.Row="6" Grid.Column="1" VerticalAlignment="Center"/>
+        <TextBlock Text="Пол" Grid.Row="8" Grid.Column="1" VerticalAlignment="Center"/>
+        <TextBlock Text="Номер телефона" Grid.Row="9" Grid.Column="1" VerticalAlignment="Center"/>
+        <TextBlock Text="Электронная почта" Grid.Row="10" Grid.Column="1" VerticalAlignment="Center"/>
+        <TextBox x:Name="tbFIO" Grid.Row="1" Grid.Column="3" Width="auto"/> 
+        <DatePicker x:Name="dpBDay" Grid.Row="2" Grid.Column="3" FontSize="24"/>
+        <TextBox x:Name="tbPasS" Grid.Row="3" Grid.Column="3" MaxLength="4" Width="auto" PreviewTextInput="ControlForDigit"/>
+        <TextBox x:Name="tbCertificate" Grid.Row="5" Grid.Column="3" MaxLength="13" Width="auto" PreviewTextInput="ControlForDigit"/>
+        <TextBox x:Name="tbPasN" Grid.Row="4" Grid.Column="3" MaxLength="6" Width="auto" PreviewTextInput="ControlForDigit"/>
+        <StackPanel x:Name="spAddress" Orientation="Horizontal" Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="3" Width="auto">
+            <ComboBox x:Name="cmbTypeAddress" Width="100">
                 <ComboBoxItem Content="улица"/>
                 <ComboBoxItem Content="проспект"/>
                 <ComboBoxItem Content="бульвар"/>
-                <ComboBoxItem Content="переулок"/> 
+                <ComboBoxItem Content="переулок"/>  
             </ComboBox>
-            <TextBox Width="180"/>
+            <TextBox x:Name="tbStreet" Width="180"/>
             <TextBlock Text="дом"/>
-            <TextBox Width="40"/>
+            <TextBox x:Name="tbBuilding" Width="40"/>
             <TextBlock Text="квартира"/>
-            <TextBox Width="40"/>
+            <TextBox x:Name="tbFlat" Width="40" PreviewTextInput="ControlForDigit"/>
         </StackPanel>
-        <ComboBox Grid.Row="7" Grid.Column="3" Width="auto">
+        <TextBox Visibility="Collapsed" x:Name="tbAddress" Text="{Binding Address}" Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="3" Width="auto"/>
+        <ComboBox x:Name="cmbGender" Grid.Row="8" Grid.Column="3" Width="auto">
             <ComboBoxItem Content="Женский"/>
             <ComboBoxItem Content="Мужской"/>
         </ComboBox>
-        <TextBox Grid.Row="8" Grid.Column="3" Width="auto"/>
-        <TextBox Grid.Row="9" Grid.Column="3" Width="auto"/>
+    
+        <xctk:MaskedTextBox x:Name="tbMsisdn" Grid.Row="9" Grid.Column="3" Width="auto" Text="{Binding Msisdn}" PreviewTextInput="ControlForDigit"/>
+        <TextBox x:Name="tbEmail" Grid.Row="10" Grid.Column="3" Width="auto"/>
+        <Button x:Name="btnCancel" Content="Отменить" Click="btnCancel_Click" Grid.Column="1" Grid.Row="12"/>
+        <Button x:Name="btnSave" Content="Сохранить" Click="btnSave_Click" Grid.Column="3" Grid.Row="12"/>
     </Grid>
 </Window>

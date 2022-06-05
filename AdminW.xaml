@@ -5,49 +5,55 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TravelAgencyCRM"
         mc:Ignorable="d"
-        Title="" Height="940" Width="1400" MinWidth="1100" MinHeight="800" WindowStartupLocation="CenterScreen">
+        Title="Главный менеджер по продажам" Height="940" Width="1400" MinWidth="1100" MinHeight="800" WindowStartupLocation="CenterScreen">
     <Grid>
-        <TabControl SelectionChanged="TabControl_SelectionChanged">
-            <TabItem Header="Клиенты" x:Name="tiClient">
+        <TabControl SelectionChanged="TabControl_SelectionChanged" Margin="20,0">
+            <TabItem Header="Сотрудники" x:Name="tiStaff">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="100"/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
-                    <Grid Grid.Row="0">
+                    <Grid Grid.Row="0" Grid.Column="1">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
+                            <ColumnDefinition Width="10"/>
                             <ColumnDefinition Width="320"/>
+                            <ColumnDefinition Width="10"/>
                             <ColumnDefinition/>
+                            <ColumnDefinition Width="10"/>
                             <ColumnDefinition/>
+                            <ColumnDefinition Width="10"/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition/>
-                            <RowDefinition Height="5"/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
-                        <Label Content="Пол" HorizontalAlignment="Center" />
-                        <Label Content="Имя" Grid.Column="1" HorizontalAlignment="Center"/>
-                        <ComboBox Height="33" Grid.Row="2" x:Name="cmbGender" SelectionChanged="cmbGender_SelectionChanged">
+                        <Label Content="Должность" HorizontalAlignment="Left"/>
+                        <Label Content="ФИО" Grid.Column="2" HorizontalAlignment="Left"/>
+                        <Label Content="Состояние активности" Grid.Column="4" HorizontalAlignment="Left"/>
+                        <ComboBox x:Name="cmbRole" Height="33" Grid.Row="2" SelectionChanged="cmbRole_SelectionChanged" Width="auto">
                             <ComboBoxItem Content="Все"/>
-                            <ComboBoxItem Content="Мужской"/>
-                            <ComboBoxItem Content="Женский"/>
+                            <ComboBoxItem Content="Главный менеджер"/>
+                            <ComboBoxItem Content="Менеджер"/>
                         </ComboBox>
-                        <TextBox x:Name="tbName" Grid.Row="2" Grid.Column="1" TextChanged="tbName_TextChanged" Width="auto"/>
-                        <Button x:Name="ShowClientHistory" Content="Просмотреть историю" Grid.Column="3" Grid.ColumnSpan="2" Grid.Row="0" Grid.RowSpan="3" VerticalAlignment="Center" Width="237"/>
+                        <TextBox x:Name="tbFullName" Grid.Row="2" Grid.Column="2" Width="auto" TextChanged="tbFullName_TextChanged"/>
+                        <ComboBox x:Name="cmbExisting" Grid.Column="4" Grid.Row="1" Width="auto" Height="33" SelectionChanged="cmbRole_SelectionChanged">
+                            <ComboBoxItem Content="Все"/>
+                            <ComboBoxItem Content="Активные"/>
+                            <ComboBoxItem Content="Заблокированные"/>
+                        </ComboBox>
+                        <Button x:Name="btnAddStaff" Grid.Column="6" Content="Добавить" Click="btnAddStaff_Click" Width="200"/>
+                        <Button x:Name="btnEditStaff" Grid.Column="6" Grid.Row="3" Content="Редактировать" Click="btnEditStaff_Click" Width="200"/>
+                        <Button x:Name="btnLock" Grid.Column="8" Content="Заблокировать" Click="btnLock_Click" Width="200"/>
+                        <Button x:Name="btnUnlock" Grid.Column="8" Grid.Row="3" Content="Разблокировать" Click="btnUnlock_Click" Width="200"/>
                     </Grid>
-                    <DataGrid VerticalScrollBarVisibility="Visible" x:Name="dgClient" Grid.Row="1" AutoGenerateColumns="False"  CanUserAddRows="False" IsReadOnly="True" CanUserDeleteRows="False">
+                    <DataGrid Grid.Row="1" x:Name="dgStaff" AutoGenerateColumns="False" CanUserAddRows="False" SelectionMode="Single" SelectionChanged="Datagrid_SelectionChanged" CanUserDeleteRows="False">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="ID" Binding="{Binding ID}"/>
-                            <DataGridTextColumn Header="ФИО" Binding="{Binding FullName}"/>
-                            <DataGridTextColumn Header="Серия" Binding="{Binding PassportS}"/>
-                            <DataGridTextColumn Header="Номер" Binding="{Binding PassportN}"/>
-                            <DataGridTextColumn Header="Дата рождения" Binding="{Binding BDay, StringFormat=\{0:dd.MM.yyyy\}}"/>
-                            <DataGridTextColumn Header="Адрес" Binding="{Binding Address}"/>
-                            <DataGridTextColumn Header="Пол" Binding="{Binding Gender}"/>
-                            <DataGridTextColumn Header="Номер телефона" Binding="{Binding Msisdn}"/>
-                            <DataGridTextColumn Header="Электронная почта" Binding="{Binding Email}"/>
+                            <DataGridTextColumn Header="ФИО (⇅)" Binding="{Binding FullName}" />
+                            <DataGridTextColumn Header="Должность (⇅)" Binding="{Binding Place}"/>
+                            <DataGridTextColumn Header="Логин (⇅)" Binding="{Binding Login}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </Grid>
@@ -95,181 +101,72 @@
                                 <DatePicker x:Name="dpDepartureF" Canvas.Left="155" Canvas.Top="40" SelectedDateChanged="cmbStatus_SelectionChanged"/>
                             </Canvas>
                             <Canvas Width="130" Height="87">
-                                <Button Content="Добавить" Canvas.Left="5" Canvas.Top="25"/>
-                            </Canvas>
-                            <Canvas Width="190" Height="87">
-                                <Button Content="Редактировать" Width="180" Canvas.Left="5" Canvas.Top="25"/>
+                                <Button x:Name="btnApproveTour" Click="btnApproveTour_Click" Content="Одобрить" Canvas.Left="5" Canvas.Top="25"/>
                             </Canvas>
                             <Canvas Width="130" Height="87">
-                                <Button Content="Удалить" Canvas.Left="5" Canvas.Top="25"/>
+                                <Button x:Name="btnDismissTour" Click="btnDismissTour_Click" Content="Отклонить" Canvas.Left="5" Canvas.Top="25"/>
                             </Canvas>
                         </WrapPanel>
                     </StackPanel>
-                    <DataGrid x:Name="dgTour" AutoGenerateColumns="False"  CanUserAddRows="False" IsReadOnly="True" CanUserDeleteRows="False">
+                    <DataGrid x:Name="dgTour" AutoGenerateColumns="False" SelectionChanged="Datagrid_SelectionChanged" CanUserAddRows="False" IsReadOnly="True" CanUserDeleteRows="False">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Номер" Binding="{Binding ID}"/>
-                            <DataGridTextColumn Header="Город" Binding="{Binding City}"/>
-                            <DataGridTextColumn Header="Страна" Binding="{Binding Country}"/>
-                            <DataGridTextColumn Header="Цена" Binding="{Binding Price}"/>
-                            <DataGridTextColumn Header="Статус" Binding="{Binding TourStates.Name}"/>
-                            <DataGridTextColumn Header="Тип" Binding="{Binding TourType.Name}"/>
-                            <DataGridTextColumn Header="Дата отправки" Binding="{Binding Departure, StringFormat=\{0:dd.MM.yyyy\}}"/>
-                            <DataGridTextColumn Header="Дата прибытия" Binding="{Binding Arrival, StringFormat=\{0:dd.MM.yyyy\}}"/>
-                            <DataGridTextColumn Header="Кол-во билетов" Binding="{Binding Tickets}"/>
+                            <DataGridTextColumn Header="Номер (⇅)" Binding="{Binding ID}"/>
+                            <DataGridTextColumn Header="Город (⇅)" Binding="{Binding City}"/>
+                            <DataGridTextColumn Header="Страна (⇅)" Binding="{Binding Country}"/>
+                            <DataGridTextColumn Header="Цена (⇅)" Binding="{Binding Price}"/>
+                            <DataGridTextColumn Header="Статус (⇅)" Binding="{Binding TourStates.Name}"/>
+                            <DataGridTextColumn Header="Тип (⇅)" Binding="{Binding TourType.Name}"/>
+                            <DataGridTextColumn Header="Дата отправки (⇅)" Binding="{Binding Departure, StringFormat=\{0:dd.MM.yyyy\}}"/>
+                            <DataGridTextColumn Header="Дата прибытия (⇅)" Binding="{Binding Arrival, StringFormat=\{0:dd.MM.yyyy\}}"/>
+                            <DataGridTextColumn Header="Кол-во билетов (⇅)" Binding="{Binding Tickets}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </StackPanel>
             </TabItem>
-            <TabItem Header="Сотрудники" x:Name="tiStaff">
+            <TabItem Header="Ожидают подтверждения" x:Name="tiWaitingOperators">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="100"/>
+                        <RowDefinition Height="50"/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
-                    <Grid Grid.Row="0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition Width="320"/>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition/>
-                            <RowDefinition Height="5"/>
-                            <RowDefinition/>
-                        </Grid.RowDefinitions>
-                        <Label Content="Должность" HorizontalAlignment="Center"/>
-                        <Label Content="ФИО" Grid.Column="1" HorizontalAlignment="Center"/>
-                        <ComboBox x:Name="cmbRole" Height="33" Grid.Row="2" SelectionChanged="cmbRole_SelectionChanged">
-                            <ComboBoxItem Content="Все"/>
-                            <ComboBoxItem Content="Директор"/>
-                            <ComboBoxItem Content="Менеджер"/>
-                        </ComboBox>
-                        <TextBox x:Name="tbFullName" Grid.Row="2" Grid.Column="1" Width="auto" TextChanged="tbFullName_TextChanged"/>
-                    </Grid>
-                    <DataGrid Grid.Row="1" x:Name="dgStaff" AutoGenerateColumns="False"  CanUserAddRows="False" IsReadOnly="True" CanUserDeleteRows="False" ColumnWidth="*">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="btnApprove" Content="Подтвердить" Width="150" Click="btnApprove_Click"/>
+                    <Button x:Name="btnDismiss" Content="Отклонить" Grid.Column="1" Width="150" Click="btnDismiss_Click"/>
+                    <DataGrid x:Name="dgWaitingOperators" SelectionChanged="Datagrid_SelectionChanged" Grid.Row="1" Grid.ColumnSpan="4" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True" CanUserDeleteRows="False">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Номер" Binding="{Binding ID}" Width="10*"/>
-                            <DataGridTextColumn Header="ФИО" Binding="{Binding FullName}" Width="50*"/>
-                            <DataGridTextColumn Header="Должность" Binding="{Binding Place}" Width="20*"/>
-                            <DataGridTextColumn Header="Логин" Binding="{Binding Login}" Width="20*"/>
+                            <DataGridTextColumn Header="ФИО оператора (⇅)" Binding="{Binding FullName}"/>
+                            <DataGridTextColumn Header="Логин (⇅)" Binding="{Binding Login}"/>
+                            <DataGridTextColumn Header="Комментарий при регистрации (⇅)" Binding="{Binding Comment}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </Grid>
             </TabItem>
-            <TabItem Header="Поездки" Name="tiTrack">
-                <StackPanel>
-                    <StackPanel x:Name="ClientPanel" Height="90">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition/>
-                                <ColumnDefinition Width="320"/>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition/>
-                                <RowDefinition Height="5"/>
-                                <RowDefinition/>
-                            </Grid.RowDefinitions>
-                            <Label Content="Пол" HorizontalAlignment="Center"/>
-                            <Label Content="Имя" Grid.Column="1" HorizontalAlignment="Center"/>
-                            <ComboBox x:Name="cmbGenderTrack" Height="33" Grid.Row="2" SelectionChanged="cmbTrack_SelectionChanged">
-                                <ComboBoxItem Content="Все"/>
-                                <ComboBoxItem Content="Мужской"/>
-                                <ComboBoxItem Content="Женский"/>
-                            </ComboBox>
-                            <TextBox x:Name="tbClientName" TextChanged="tbTrack_TextChanged" Grid.Row="2" Grid.Column="1" Width="auto"/>
-                        </Grid>
-                    </StackPanel>
-                    <StackPanel x:Name="TourPanel">
-                        <StackPanel Orientation="Vertical">
-                            <StackPanel>
-                                <WrapPanel Grid.Row="0">
-                                    <Canvas Width="165" Height="80">
-                                        <Label Content="Статус путёвки" Canvas.Left="5"/>
-                                        <ComboBox x:Name="cmbStatusTrack" SelectionChanged="cmbTrack_SelectionChanged" Canvas.Left="5" Canvas.Top="40">
-                                            <ComboBoxItem Content="Все"/>
-                                            <ComboBoxItem Content="Обычная"/>
-                                            <ComboBoxItem Content="Горячая"/>
-                                        </ComboBox>
-                                    </Canvas>
-                                    <Canvas Width="165" Height="80">
-                                        <Label Content="Тип" Canvas.Left="5"/>
-                                        <ComboBox x:Name="cmbTypeTrack" SelectionChanged="cmbTrack_SelectionChanged" Canvas.Top="40" Height="33" Canvas.Left="5" >
-                                            <ComboBoxItem Content="Все"/>
-                                            <ComboBoxItem Content="Прямой полет"/>
-                                            <ComboBoxItem Content="С пересадками"/>
-                                        </ComboBox>
-                                    </Canvas>
-                                    <Canvas Width="165" Height="80">
-                                        <Label Content="Город" Canvas.Left="5"/>
-                                        <TextBox x:Name="tbCityTrack" TextChanged="tbTrack_TextChanged" Height="33" Canvas.Left="5" FontSize="20" Width="150" Canvas.Top="40"/>
-                                    </Canvas>
-                                    <Canvas Width="165" Height="80">
-                                        <Label Content="Страна" Canvas.Left="5" Width="81" Height="40" FontSize="20"/>
-                                        <TextBox x:Name="tbCountryTrack" TextChanged="tbTrack_TextChanged" Height="33" Canvas.Left="5" FontSize="20" Width="150" Canvas.Top="40" />
-                                    </Canvas>
-                                    <Canvas Width="165" Height="80">
-                                        <Label Content="Цена" Canvas.Left="5" Width="66" Height="40" FontSize="20"/>
-                                        <TextBox x:Name="tbPriceTrack" TextChanged="tbTrack_TextChanged" Height="33" Canvas.Left="5" FontSize="20" Width="150" Canvas.Top="40" PreviewTextInput="tbPrice_PreviewTextInput"/>
-                                    </Canvas>
-                                    <Canvas Width="310" Height="87">
-                                        <Label Content="Дата отправки" Canvas.Left="70" Canvas.Top="2" Width="166" Height="38" FontSize="20"/>
-                                        <DatePicker x:Name="dpArrivalSTrack" SelectedDateChanged="dpTrack_SelectedDateChanged" Canvas.Left="5" Canvas.Top="40" />
-                                        <DatePicker x:Name="dpArrivalFTrack" SelectedDateChanged="dpTrack_SelectedDateChanged" Canvas.Left="155" Canvas.Top="40" />
-                                    </Canvas>
-                                    <Canvas Width="310" Height="87">
-                                        <Label Content="Дата прибытия" Canvas.Left="70" Canvas.Top="0"/>
-                                        <DatePicker x:Name="dpDepartureSTrack" SelectedDateChanged="dpTrack_SelectedDateChanged" Canvas.Left="5" Canvas.Top="40"/>
-                                        <DatePicker x:Name="dpDepartureFTrack" SelectedDateChanged="dpTrack_SelectedDateChanged" Canvas.Left="155" Canvas.Top="40"/>
-                                    </Canvas>
-                                </WrapPanel>
-                            </StackPanel>
-                        </StackPanel>
-                    </StackPanel>
-                    <StackPanel x:Name="StaffPanel" Height="90">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition/>
-                                <ColumnDefinition Width="320"/>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition/>
-                                <RowDefinition Height="5"/>
-                                <RowDefinition/>
-                            </Grid.RowDefinitions>
-                            <Label Content="Должность" HorizontalAlignment="Center"/>
-                            <Label Content="ФИО" Grid.Column="1" HorizontalAlignment="Center"/>
-                            <ComboBox x:Name="cmbRoleTrack" Height="33" Grid.Row="2" SelectionChanged="cmbTrack_SelectionChanged">
-                                <ComboBoxItem Content="Все"/>
-                                <ComboBoxItem Content="Директор"/>
-                                <ComboBoxItem Content="Менеджер"/>
-                            </ComboBox>
-                            <TextBox x:Name="tbStaffFIO" TextChanged="tbTrack_TextChanged" Grid.Row="2" Grid.Column="1" Width="auto"/>
-                        </Grid>
-                    </StackPanel>
-                    <DataGrid x:Name="dgTrack" AutoGenerateColumns="False"  CanUserAddRows="False" IsReadOnly="True" CanUserDeleteRows="False">
+            <TabItem Header="Операторы" x:Name="tiOperators">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="btnDeny" Content="Запретить доступ" Grid.Column="0" Width="200" Click="btnDeny_Click"/>
+                    <DataGrid x:Name="dgOperators" Grid.Row="1" Grid.ColumnSpan="4"  SelectionChanged="Datagrid_SelectionChanged" FontSize="24" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True" CanUserDeleteRows="False">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Номер" Binding="{Binding ID}"/>
-                            <DataGridTextColumn Header="Сотрудник" Binding="{Binding StaffID}"/>
-                            <DataGridTextColumn Header="Имя сотрудника" Binding="{Binding Staff.FullName}"/>
-                            <DataGridTextColumn Header="Клиент" Binding="{Binding ClientID}"/>
-                            <DataGridTextColumn Header="Имя клиента" Binding="{Binding Clients.FullName}"/>
-                            <DataGridTextColumn Header="Тур" Binding="{Binding TourID}"/>
-                            <DataGridTextColumn Header="Город тура" Binding="{Binding Tours.City}"/>
-                            <DataGridTextColumn Header="Страна тура" Binding="{Binding Tours.Country}"/>
-                            <DataGridTextColumn Header="Дата заключения" Binding="{Binding ContractDate, StringFormat=\{0:dd.MM.yyyy\}}"/>
-                            <DataGridTextColumn Header="Кол-во билетов" Binding="{Binding TicketsAmount}"/>
-                            <DataGridTextColumn Header="Сумма" Binding="{Binding TotalCost}"/>
+                            <DataGridTextColumn Header="ФИО оператора (⇅)" Binding="{Binding FullName}"/>
+                            <DataGridTextColumn Header="Логин (⇅)" Binding="{Binding Login}"/>
+                            <DataGridTextColumn Header="Комментарий при регистрации (⇅)" Binding="{Binding Comment}"/>
                         </DataGrid.Columns>
                     </DataGrid>
-                </StackPanel>
+                </Grid>
             </TabItem>
         </TabControl>
     </Grid>

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using TravelAgencyCRM.Models;
+using TravelAgencyCRM.Repositories;
 using static System.Console;
 
 namespace TravelAgencyCRM
@@ -17,12 +18,10 @@ namespace TravelAgencyCRM
         {
             InitializeComponent();
         }
-
         AgencyModel model = new AgencyModel();
         public static string log;
-         
 
-        private void Enter_Click(object sender, RoutedEventArgs e)
+        private async void Enter_Click(object sender, RoutedEventArgs e)
         {
             string login = tbLogin.Text;
             string password = tbPassword.Password;
@@ -31,7 +30,7 @@ namespace TravelAgencyCRM
             {
                 MessageBox.Show("Заполните все поля");
                 log = $"Авторизация | Пустые поля логина и пароля\n";
-                Logger.Log(log);
+                await Logger.Log(log);
                 return;
             }
 
@@ -39,7 +38,7 @@ namespace TravelAgencyCRM
             {
                 MessageBox.Show("Введите логин");
                 log = $"Авторизация | Пустое поле логина\n";
-                Logger.Log(log);
+                await Logger.Log(log);
                 return;
             }
 
@@ -47,7 +46,7 @@ namespace TravelAgencyCRM
             {
                 MessageBox.Show("Введите пароль");
                 log = $"Авторизация | Пустое поле пароля\n";
-                Logger.Log(log);
+                await Logger.Log(log);
                 return;
             }
 
@@ -59,25 +58,26 @@ namespace TravelAgencyCRM
                 {
                     case 0:
                         log = $"Авторизация | Авторизация пользователя Менеджер - {staff.FullName}\n";
-                        Logger.Log(log);
+                        await Logger.Log(log);
                         ManagerWindow m = new ManagerWindow();
                         m.Show();
                         this.Close();
                         break;
                     case 1:
-                        log = $"Авторизация | Авторизация пользователя Директор - {staff.FullName}\n";
-                        Logger.Log(log);
+                        log = $"Авторизация | Авторизация пользователя Главный менеджер по продажам - {staff.FullName}\n";
+                        await Logger.Log(log);
                         AdminW window = new AdminW();
                         window.Show();
                         this.Close();
                         break;
                 }
+                StaffRepository.CurrentStaffID = staff.ID;
             }
             else
             {
                 MessageBox.Show("Неверный логин или пароль");
-                log = $"Авторизация | Неверный логин или пароль {login}\n";
-                Logger.Log(log);
+                log = $"Авторизация | Неверный логин или пароль\n";
+                await Logger.Log(log);
             }
         }
 

@@ -4,7 +4,6 @@ namespace TravelAgencyCRM.Models
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
-    using System.Data.Entity.Spatial;
 
     public partial class Tours
     {
@@ -39,6 +38,11 @@ namespace TravelAgencyCRM.Models
         public int? Tickets { get; set; }
 
         public byte? IsExists { get; set; }
+
+        /// <summary>
+        /// is tour approved by MainManager, has values: 0 - created, not approved; 1 - approved; 2 - not approved
+        /// </summary>
+        public byte? IsApproved { get; set; }
 
         public virtual TourStates TourStates { get; set; }
 

@@ -4,17 +4,13 @@ namespace TravelAgencyCRM.Models
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
-    using System.Data.Entity.Spatial;
 
     public partial class Clients
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Clients()
         {
             Track = new HashSet<Track>();
         }
-
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int ID { get; set; }
 
         public string FullName { get; set; }
@@ -24,6 +20,9 @@ namespace TravelAgencyCRM.Models
 
         [StringLength(6)]
         public string PassportN { get; set; }
+
+        [StringLength(13)]
+        public string BirthCertificateNumber { get; set; }
 
         [Column(TypeName = "date")]
         public DateTime? BDay { get; set; }
@@ -41,7 +40,6 @@ namespace TravelAgencyCRM.Models
 
         public byte? IsExists { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Track> Track { get; set; }
     }
 }

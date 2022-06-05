@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using TravelAgencyCRM.AddEditWindows;
 using TravelAgencyCRM.Models;
 using TravelAgencyCRM.Models.ViewModels;
 using TravelAgencyCRM.Repositories;
@@ -14,100 +15,76 @@ namespace TravelAgencyCRM
     /// </summary>
     public partial class AdminW : Window
     {
-      //  public AgencyModel model = new AgencyModel();
-        private IEnumerable<Clients> allClients;
+        //  public AgencyModel model = new AgencyModel();
         private IEnumerable<Tours> allTours;
         private IEnumerable<StaffViewModel> allStaff;
-        private IEnumerable<Track> allTracks;
+        private IEnumerable<Operators> allOperators;
+        private IEnumerable<Operators> allWaitingOperators;
 
         public AdminW()
         {
             InitializeComponent();
-
-            allClients = ClientRepository.GetAllClients();
-            cmbGender.SelectedIndex = 0;
-            UpdateClients();
-
-            allTours = TourRepository.GetAllTours();
-            cmbStatus.SelectedIndex = 0;
-            cmbType.SelectedIndex = 0;
-            UpdateTours();
 
             allStaff = StaffRepository.GetAllStaff().Select(s => new StaffViewModel
             {
                 ID = s.ID,
                 FullName = s.FullName,
                 Login = s.Login,
-                Place = s.IsAdmin.Value == 0 ? "Менеджер" : "Директор"
+                Place = s.IsAdmin.Value == 0 ? "Менеджер" : "Главный менеджер"
             });
+            cmbExisting.SelectedIndex = 0;
             cmbRole.SelectedIndex = 0;
             UpdateStaff();
 
-            allTracks = TrackRepository.GetAllTrack();
-            cmbGenderTrack.SelectedIndex = 0;
-            cmbStatusTrack.SelectedIndex = 0;
-            cmbTypeTrack.SelectedIndex = 0;
-            cmbRoleTrack.SelectedIndex = 0;
-            UpdateTrack();
+            allTours = TourRepository.GetAllNotApprovedTours();
+            cmbStatus.SelectedIndex = 0;
+            cmbType.SelectedIndex = 0;
+            dpArrivalS.DisplayDateStart = DateTime.Now;
+            dpArrivalF.DisplayDateStart = DateTime.Now;
+            dpDepartureS.DisplayDateStart = DateTime.Now;
+            dpDepartureF.DisplayDateStart = DateTime.Now;
+            UpdateTours();
+
+            allWaitingOperators = OperatorRepository.GetAllWaitingOperators();
+            UpdateWaitOperators();
+
+            allOperators = OperatorRepository.GetAllOperators();
+            UpdateOperators();
         }
 
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (tiClient.IsSelected)
-            {
-                UpdateClients();
-            }
-
             if (tiTour.IsSelected)
             {
                 dgTour.Height = this.ActualHeight - wPanel.ActualHeight;
                 UpdateTours();
             }
-
             if (tiStaff.IsSelected)
             {
-                UpdateClients();
+                UpdateStaff();
             }
-
-            if (tiTrack.IsSelected)
+            if (tiWaitingOperators.IsSelected)
             {
-                dgTrack.Height = this.ActualHeight - (TourPanel.ActualHeight - 180);
-                UpdateTrack();
+                UpdateWaitOperators();
             }
-        }
-
-        private void UpdateClients()
-        {
-            dgClient.ItemsSource = allClients.ToList();
-        }
-        private void SearchClient()
-        {
-            if (cmbGender.SelectedIndex == 0)
+            if (tiOperators.IsSelected)
             {
-                allClients = ClientRepository.SearchClientWithoutGender(tbName.Text);
+                UpdateOperators();
             }
-            else
-            {
-                allClients = ClientRepository.SearchClientWithGender(((ComboBoxItem)cmbGender.SelectedItem).Content.ToString(), tbName.Text);
-            }
-            UpdateClients();
         }
-        private void tbName_TextChanged(object sender, TextChangedEventArgs e)
+        private void Datagrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            SearchClient();
-        }
-        private void cmbGender_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            SearchClient();
+            e.Handled = true;
         }
 
+        // Handlers for Tour
         private void UpdateTours()
         {
             dgTour.ItemsSource = allTours.ToList();
         }
         private void SearchTours()
         {
-            allTours = TourRepository.GetAllTours();
+            allTours = TourRepository.GetAllNotApprovedTours();
             if ((cmbStatus.SelectedItem != null) && (cmbType.SelectedItem != null))
             {
                 string status = ((ComboBoxItem)cmbStatus.SelectedItem).Content.ToString();
@@ -160,35 +137,108 @@ namespace TravelAgencyCRM
             if (!char.IsDigit(e.Text, 0))
                 e.Handled = true;
         }
-        
+        private void btnApproveTour_Click(object sender, RoutedEventArgs e)
+        {
+            var selected = (Tours)dgTour.SelectedItem;
+            if (selected != null)
+            {
+                int procent = 10;
+                TourRepository.ApproveTour(selected.ID, procent);
+                UpdateTours();
+            }
+            else
+            {
+                MessageBox.Show("Выберите тур для одобрения");
+            }
+        }
+        private void btnDismissTour_Click(object sender, RoutedEventArgs e)
+        {
+            var selected = (Tours)dgTour.SelectedItem;
+            if (selected != null)
+            {
+                if (MessageBox.Show("Вы уверенны, что хотите отклонить выбранный тур?\nДанное действие нельзя будет отменить", "", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                {
+                    TourRepository.DismissTour(selected.ID);
+                    UpdateTours();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Выберите тур для отклонения");
+            }
+        }
+
+        // Handlers for Staff
         private void UpdateStaff()
         {
             dgStaff.ItemsSource = allStaff.ToList();
         }
         private void SearchStaff()
         {
-            if (cmbRole.SelectedIndex == 0)
+            if ((cmbExisting.SelectedItem != null) && (cmbRole.SelectedItem != null))
             {
-                allStaff = StaffRepository.SearchStaffWithoutPlace(tbFullName.Text)
-                    .Select(s => new StaffViewModel
+                int existing = 0;
+                switch (cmbExisting.SelectedIndex)
                 {
-                    ID = s.ID,
-                    FullName = s.FullName,
-                    Login = s.Login,
-                    Place = s.IsAdmin.Value == 0 ? "Менеджер" : "Директор"
-                });
-            }
-            else
-            {
-                byte role = (byte)((cmbRole.SelectedItem as ComboBoxItem).Content.ToString() == "Директор" ? 1 : 0); 
-                allStaff = StaffRepository.SearchStaffWithPlace(role, tbFullName.Text)
-                    .Select(s => new StaffViewModel
+                    case 1:
+                        existing = 1;
+                        break;
+                    case 2:
+                        existing = 0;
+                        break;
+                }
+                if (cmbExisting.SelectedIndex != 0)
                 {
-                    ID = s.ID,
-                    FullName = s.FullName,
-                    Login = s.Login,
-                    Place = s.IsAdmin.Value == 0 ? "Менеджер" : "Директор"
-                });
+                    if (cmbRole.SelectedIndex == 0)
+                    {
+                        allStaff = StaffRepository.SearchStaffWithoutPlace(tbFullName.Text, existing)
+                            .Select(s => new StaffViewModel
+                            {
+                                ID = s.ID,
+                                FullName = s.FullName,
+                                Login = s.Login,
+                                Place = s.IsAdmin.Value == 0 ? "Менеджер" : "Главный менеджер"
+                            });
+                    }
+                    else
+                    {
+                        byte role = (byte)((cmbRole.SelectedItem as ComboBoxItem).Content.ToString() == "Главный менеджер" ? 1 : 0);
+                        allStaff = StaffRepository.SearchStaffWithPlace(role, tbFullName.Text, existing)
+                            .Select(s => new StaffViewModel
+                            {
+                                ID = s.ID,
+                                FullName = s.FullName,
+                                Login = s.Login,
+                                Place = s.IsAdmin.Value == 0 ? "Менеджер" : "Главный менеджер"
+                            });
+                    }
+                }
+                else
+                {
+                    if (cmbRole.SelectedIndex == 0)
+                    {
+                        allStaff = StaffRepository.SearchAllStaffWithoutPlace(tbFullName.Text)
+                            .Select(s => new StaffViewModel
+                            {
+                                ID = s.ID,
+                                FullName = s.FullName,
+                                Login = s.Login,
+                                Place = s.IsAdmin.Value == 0 ? "Менеджер" : "Главный менеджер"
+                            });
+                    }
+                    else
+                    {
+                        byte role = (byte)((cmbRole.SelectedItem as ComboBoxItem).Content.ToString() == "Главный менеджер" ? 1 : 0);
+                        allStaff = StaffRepository.SearchAllStaffWithPlace(role, tbFullName.Text)
+                            .Select(s => new StaffViewModel
+                            {
+                                ID = s.ID,
+                                FullName = s.FullName,
+                                Login = s.Login,
+                                Place = s.IsAdmin.Value == 0 ? "Менеджер" : "Главный менеджер"
+                            });
+                    }
+                }
             }
             UpdateStaff();
         }
@@ -200,84 +250,108 @@ namespace TravelAgencyCRM
         {
             SearchStaff();
         }
-        
-        private void UpdateTrack()    
+        private void btnLock_Click(object sender, RoutedEventArgs e)
         {
-            dgTrack.ItemsSource = allTracks.ToList();
-        }
-        private void SearchTrack()
-        {
-            allTracks = TrackRepository.GetAllTrack();
-
-            if ((cmbStatusTrack.SelectedItem != null) && (cmbTypeTrack.SelectedItem != null) && (cmbGenderTrack.SelectedItem != null) && (cmbRoleTrack.SelectedItem != null))
+            var selected = (StaffViewModel)dgStaff.SelectedItem;
+            if (selected != null)
             {
-                string status = ((ComboBoxItem)cmbStatusTrack.SelectedItem).Content.ToString();
-                string type = ((ComboBoxItem)cmbTypeTrack.SelectedItem).Content.ToString();
-                string gender = ((ComboBoxItem)cmbGenderTrack.SelectedItem).Content.ToString();
-                byte role = (byte)((cmbRoleTrack.SelectedItem as ComboBoxItem).Content.ToString() == "Директор" ? 1 : 0);
+                StaffRepository.Lock(selected.ID);
+                UpdateStaff();
+            }
+            else
+            {
+                MessageBox.Show("Выберите сотрудника для блокировки");
+            }
+        }
+        private void btnUnlock_Click(object sender, RoutedEventArgs e)
+        {
+            var selected = (StaffViewModel)dgStaff.SelectedItem;
+            if (selected != null)
+            {
+                StaffRepository.Unlock(selected.ID);
+                UpdateStaff();
+            }
+            else
+            {
+                MessageBox.Show("Выберите сотрудника для разблокировки");
+            }
+        }
+        private void btnAddStaff_Click(object sender, RoutedEventArgs e)
+        {
+            AddEditStaffWindow window = new AddEditStaffWindow(0);
+            window.Show();
+            this.Close();
+        }
+        private void btnEditStaff_Click(object sender, RoutedEventArgs e)
+        {
+            var selected = (StaffViewModel)dgStaff.SelectedItem;
+            if (selected != null)
+            {
+                AddEditStaffWindow window = new AddEditStaffWindow(selected.ID);
+                window.Show();
+                this.Close();
+            }
+            else
+            {
+                MessageBox.Show("Выберите сотрудника для редактирования");
+            }
+        }
 
-                if (cmbGenderTrack.SelectedIndex != 0)
+        // Handlers for Waiting for approve operators
+        private void UpdateWaitOperators()
+        {
+            dgWaitingOperators.ItemsSource = allWaitingOperators.ToList();
+        }
+        private void btnApprove_Click(object sender, RoutedEventArgs e)
+        {
+            var selected = (Operators)dgWaitingOperators.SelectedItem;
+            if (selected != null)
+            {
+                OperatorRepository.ApproveOperator(selected.ID);
+                UpdateWaitOperators();
+            }
+            else
+            {
+                MessageBox.Show("Выберите оператора для одобрения");
+            }
+        }
+        private void btnDismiss_Click(object sender, RoutedEventArgs e)
+        {
+            var selected = (Operators)dgWaitingOperators.SelectedItem;
+            if (selected != null)
+            {
+                if (MessageBox.Show("Вы уверенны, что хотите отклонить выбранную заявку?\nДанное действие нельзя будет отменить", "", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
-                    allTracks = allTracks.Where(x => x.Clients.Gender == gender);
-                }
-                if (!string.IsNullOrEmpty(tbClientName.Text))
-                {
-                    allTracks = allTracks.Where(x => x.Clients.FullName.ToLower().Contains(tbClientName.Text.ToLower()));
-                }
-                if (cmbStatusTrack.SelectedIndex != 0)
-                {
-                    allTracks = allTracks.Where(x => x.Tours.TourStates.Name.Contains(status));
-                }
-                if (cmbTypeTrack.SelectedIndex != 0)
-                {
-                    allTracks = allTracks.Where(x => x.Tours.TourType.Name.Contains(type));
-                }
-                if (!string.IsNullOrEmpty(tbCityTrack.Text))
-                {
-                    allTracks = allTracks.Where(x => x.Tours.City.ToLower().Contains(tbCityTrack.Text.ToLower()));
-                }
-                if (!string.IsNullOrEmpty(tbCountryTrack.Text))
-                {
-                    allTracks = allTracks.Where(x => x.Tours.Country.ToLower().Contains(tbCountryTrack.Text.ToLower()));
-                }
-                if (!string.IsNullOrEmpty(tbPriceTrack.Text))
-                {
-                    allTracks = allTracks.Where(x => x.Tours.Price <= int.Parse(tbPriceTrack.Text));
-                }
-                if ((dpArrivalSTrack.SelectedDate != null) && (dpArrivalFTrack.SelectedDate != null))
-                {
-                    var arrivalS = dpArrivalSTrack.SelectedDate.Value;
-                    var arrivalF = dpArrivalFTrack.SelectedDate.Value;
-                    allTracks = allTracks.Where(x => (x.Tours.Arrival >= arrivalS && x.Tours.Arrival <= arrivalF));
-                }
-                if ((dpDepartureSTrack.SelectedDate != null) && (dpDepartureFTrack.SelectedDate != null))
-                {
-                    var departureS = dpDepartureSTrack.SelectedDate.Value;
-                    var departureF = dpDepartureFTrack.SelectedDate.Value;
-                    allTracks = allTracks.Where(x => (x.Tours.Departure >= departureS && x.Tours.Departure <= departureF));
-                }
-                if (cmbRoleTrack.SelectedIndex != 0)
-                {
-                    allTracks = allTracks.Where(x => x.Staff.IsAdmin == role);
-                }
-                if (!string.IsNullOrEmpty(tbStaffFIO.Text))
-                {
-                    allTracks = allTracks.Where(x => x.Staff.FullName.ToLower().Contains(tbStaffFIO.Text.ToLower()));
+                    OperatorRepository.DismissOperator(selected.ID);
+                    UpdateWaitOperators();
                 }
             }
-            UpdateTrack();
+            else
+            {
+                MessageBox.Show("Выберите оператора для отклонения");
+            }
         }
-        private void cmbTrack_SelectionChanged(object sender, SelectionChangedEventArgs e)
+
+        // Handlers for approved operators
+        private void UpdateOperators()
         {
-            SearchTrack();
+            dgOperators.ItemsSource = allOperators.ToList();
         }
-        private void tbTrack_TextChanged(object sender, TextChangedEventArgs e)
+        private void btnDeny_Click(object sender, RoutedEventArgs e)
         {
-            SearchTrack();
-        }
-        private void dpTrack_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
-        {
-            SearchTrack();
+            var selected = (Operators)dgOperators.SelectedItem;
+            if (selected != null)
+            {
+                if (MessageBox.Show("Вы уверенны, что хотите заблокировать выбранному оператору доступ к системе?\nДанное действие нельзя будет отменить", "", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                {
+                    OperatorRepository.DismissOperator(selected.ID);
+                    UpdateWaitOperators();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Выберите оператора для блокирования");
+            }
         }
     }
 }

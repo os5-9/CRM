@@ -1,11 +1,8 @@
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace TravelAgencyCRM.Models
 {
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
-    using System.Data.Entity.Spatial;
-
     [Table("Staff")]
     public partial class Staff
     {
@@ -15,7 +12,7 @@ namespace TravelAgencyCRM.Models
             Track = new HashSet<Track>();
         }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }
 
         public string FullName { get; set; }

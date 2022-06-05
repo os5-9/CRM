@@ -10,11 +10,30 @@ namespace TravelAgencyCRM.Repositories
         private static AgencyModel model = new AgencyModel();
         public static IEnumerable<Tours> GetAllTours()
         {
-            var list = model.Tours.Where(x => x.IsExists == 1);
+            var list = model.Tours.Where(x => x.IsExists == 1 && x.IsApproved == 1);
+            return list;
+        }
+        public static IEnumerable<Tours> GetAllNotApprovedTours()
+        {
+            var list = model.Tours.Where(x => x.IsExists == 1 && x.IsApproved == 0);
             return list;
         }
 
-        public static IEnumerable<Tours> SearchTour(string status, string type, string city, string country, int price,DateTime arrivalS, DateTime arrivalF, DateTime departureS, DateTime departureF)
+        public static void ApproveTour(int id, int procent)
+        {
+            var tour = model.Tours.Where(x => x.ID == id).First();
+            tour.IsApproved = 1;
+            tour.Price = tour.Price + (tour.Price * procent) / 100;
+            model.SaveChanges();
+        }
+        public static void DismissTour(int Id)
+        {
+            var tour = model.Tours.Where(x => x.ID == Id).First();
+            tour.IsApproved = 2;
+            model.SaveChanges();
+        }
+
+        public static IEnumerable<Tours> SearchTour(string status, string type, string city, string country, int price, DateTime arrivalS, DateTime arrivalF, DateTime departureS, DateTime departureF)
         {
             var list = model.Tours
                     .Where(x => x.IsExists == 1 && x.TourStates.Name.Contains(status)

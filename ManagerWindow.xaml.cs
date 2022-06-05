@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -29,13 +30,16 @@ namespace TravelAgencyCRM
             allTours = TourRepository.GetAllTours();
             cmbStatus.SelectedIndex = 0;
             cmbType.SelectedIndex = 0;
+            dpArrivalS.DisplayDateStart = DateTime.Now;
+            dpArrivalF.DisplayDateStart = DateTime.Now;
+            dpDepartureS.DisplayDateStart = DateTime.Now;
+            dpDepartureF.DisplayDateStart = DateTime.Now;
             UpdateTours();
 
             allTracks = TrackRepository.GetAllTrack();
             cmbGenderTrack.SelectedIndex = 0;
             cmbStatusTrack.SelectedIndex = 0;
             cmbTypeTrack.SelectedIndex = 0;
-            cmbRoleTrack.SelectedIndex = 0;
             UpdateTrack();
         }
 
@@ -154,20 +158,19 @@ namespace TravelAgencyCRM
         {
             allTracks = TrackRepository.GetAllTrack();
 
-            if ((cmbStatusTrack.SelectedItem != null) && (cmbTypeTrack.SelectedItem != null) && (cmbGenderTrack.SelectedItem != null) && (cmbRoleTrack.SelectedItem != null))
+            if ((cmbStatusTrack.SelectedItem != null) && (cmbTypeTrack.SelectedItem != null) && (cmbGenderTrack.SelectedItem != null))
             {
                 string status = ((ComboBoxItem)cmbStatusTrack.SelectedItem).Content.ToString();
                 string type = ((ComboBoxItem)cmbTypeTrack.SelectedItem).Content.ToString();
                 string gender = ((ComboBoxItem)cmbGenderTrack.SelectedItem).Content.ToString();
-                byte role = (byte)((cmbRoleTrack.SelectedItem as ComboBoxItem).Content.ToString() == "Директор" ? 1 : 0);
 
                 if (cmbGenderTrack.SelectedIndex != 0)
                 {
                     allTracks = allTracks.Where(x => x.Clients.Gender == gender);
                 }
-                if (!string.IsNullOrEmpty(tbClientName.Text))
+                if (!string.IsNullOrEmpty(tbClientNameTrack.Text))
                 {
-                    allTracks = allTracks.Where(x => x.Clients.FullName.ToLower().Contains(tbClientName.Text.ToLower()));
+                    allTracks = allTracks.Where(x => x.Clients.FullName.ToLower().Contains(tbClientNameTrack.Text.ToLower()));
                 }
                 if (cmbStatusTrack.SelectedIndex != 0)
                 {
@@ -201,13 +204,9 @@ namespace TravelAgencyCRM
                     var departureF = dpDepartureFTrack.SelectedDate.Value;
                     allTracks = allTracks.Where(x => (x.Tours.Departure >= departureS && x.Tours.Departure <= departureF));
                 }
-                if (cmbRoleTrack.SelectedIndex != 0)
+                if (!string.IsNullOrEmpty(tbStaffFIOTrack.Text))
                 {
-                    allTracks = allTracks.Where(x => x.Staff.IsAdmin == role);
-                }
-                if (!string.IsNullOrEmpty(tbStaffFIO.Text))
-                {
-                    allTracks = allTracks.Where(x => x.Staff.FullName.ToLower().Contains(tbStaffFIO.Text.ToLower()));
+                    allTracks = allTracks.Where(x => x.Staff.FullName.ToLower().Contains(tbStaffFIOTrack.Text.ToLower()));
                 }
             }
             UpdateTrack();

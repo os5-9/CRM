@@ -9,7 +9,13 @@ namespace TravelAgencyCRM.Models
         {
         }
 
+        static AgencyModel()
+        {
+            Database.SetInitializer<AgencyModel>(new MyContextInitializer());
+        }
+
         public virtual DbSet<Clients> Clients { get; set; }
+        public virtual DbSet<Operators> Operators { get; set; }
         public virtual DbSet<Staff> Staff { get; set; }
         public virtual DbSet<Tours> Tours { get; set; }
         public virtual DbSet<TourStates> TourStates { get; set; }
@@ -17,7 +23,11 @@ namespace TravelAgencyCRM.Models
         public virtual DbSet<Track> Track { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
+        { 
+            modelBuilder.Entity<Clients>()
+            .Property(e => e.BirthCertificateNumber)
+            .IsFixedLength();
+
             modelBuilder.Entity<Clients>()
                 .HasMany(e => e.Track)
                 .WithOptional(e => e.Clients)
