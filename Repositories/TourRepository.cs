@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using TravelAgencyCRM.Models;
 
@@ -12,7 +13,8 @@ namespace TravelAgencyCRM.Repositories
 
         public static IEnumerable<Tours> GetAllTours()
         {
-            var list = model.Tours.Where(x => x.IsExists == 1 && x.IsApproved == 1 && x.Tickets > 0);
+            model.Tours.Load();
+            var list = model.Tours.Where(x => x.IsExists == 1 && x.IsApproved == 1 && x.Tickets > 0).ToList();
             return list;
         }
         public static IEnumerable<Tours> GetAllNotApprovedTours()

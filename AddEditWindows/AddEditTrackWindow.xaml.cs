@@ -41,7 +41,9 @@ namespace TravelAgencyCRM.AddEditWindows
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
+            //ManagerWindow window = new ManagerWindow();
             this.Close();
+           // window.Show();
         }
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
@@ -49,7 +51,7 @@ namespace TravelAgencyCRM.AddEditWindows
             if (selectedClient != null)
             {
                 Track track = new Track();
-                track.StaffID = 2;// selectedStaff.ID;
+                track.StaffID = 11;// selectedStaff.ID;
                 track.ClientID = selectedClient.ID;
                 track.TourID = selectedTour.ID;
                 track.ContractDate = DateTime.Now;
@@ -60,13 +62,21 @@ namespace TravelAgencyCRM.AddEditWindows
                 track.TicketsAmount = 1 + allWardClients.Count;
                 track.TotalCost = track.TicketsAmount * selectedTour.Price;
                 track.IsExists = 1;
-                TrackRepository.AddTrack(track);
-                btnCancel_Click(sender, e);
-                TrackRepository.FormContract(track);
+
+                if (selectedTour.Tickets - track.TicketsAmount >= 0)
+                {
+                    TrackRepository.AddTrack(track);
+                    TrackRepository.FormContract(track); 
+                    btnCancel_Click(sender, e);
+                }
+                else
+                {
+                    MessageBox.Show("Количество людей превышает количество билетов в наличии");
+                }
             }
             else
             {
-                MessageBox.Show("Выберите клиента для оформаления договора");
+                MessageBox.Show("Выберите клиента для оформления договора");
             }
         }
 

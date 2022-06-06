@@ -256,7 +256,10 @@ namespace TravelAgencyCRM
         {
             var selected = (Tours)dgTour.SelectedItem;
             AddEditTrackWindow window = new AddEditTrackWindow(selected);
-            window.Show();
+            this.Hide();
+            window.ShowDialog();
+            this.Show();
+            SearchTours();
         }
 
         private void SetSize()

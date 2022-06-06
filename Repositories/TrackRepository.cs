@@ -20,6 +20,10 @@ namespace TravelAgencyCRM.Repositories
         public static void AddTrack(Track track)
         {
             model.Track.Add(track);
+            Tours tour = model.Tours.Where(x => x.ID == track.TourID).First();
+            tour.Tickets -= track.TicketsAmount;
+          
+            model.Entry(tour).State = System.Data.Entity.EntityState.Modified;
             model.SaveChanges();
         }
 
@@ -51,7 +55,7 @@ namespace TravelAgencyCRM.Repositories
             document.Bookmarks["Date"].Select();
             application.Selection.TypeText($"{DateTime.Today:dd.MM.yyyy}");
             Staff staff = model.Staff.Where(x => x.ID == track.StaffID).First();
-            Clients client = model.Clients.Where(x => x.ID == track.StaffID).First();
+            Clients client = model.Clients.Where(x => x.ID == track.ClientID).First();
             
             // Если в договоре фигурируют дети:
             if (Ward(track))
@@ -121,7 +125,7 @@ namespace TravelAgencyCRM.Repositories
             application.Selection.TypeText($"{track.TotalCost/10}");
             application.Visible = true;
 
-            document.SaveAs2(Environment.CurrentDirectory +$"\\Договора\\contract №{track.ID}");
+            document.SaveAs2(Environment.CurrentDirectory +$"\\Договора\\Договор №{track.ID}");
         }
     }
 }
