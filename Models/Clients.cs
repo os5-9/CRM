@@ -21,6 +21,14 @@ namespace TravelAgencyCRM.Models
         [StringLength(6)]
         public string PassportN { get; set; }
 
+        public string Whom { get; set; }
+
+        [Column(TypeName = "date")]
+        public DateTime? TakedDay { get; set; }
+
+        [StringLength(7)]
+        public string CodeUnit { get; set; }
+
         [StringLength(13)]
         public string BirthCertificateNumber { get; set; }
 

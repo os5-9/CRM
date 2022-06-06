@@ -38,7 +38,7 @@
         <TextBox x:Name="tbLogin" Grid.Row="3" Grid.Column="3" Width="auto" Text="{Binding Login}"/>
         <TextBox x:Name="tbPassword" Grid.Row="4" Grid.Column="3" Width="auto" Text="{Binding Password}"/>
 
-        <Button x:Name="btnCancel" Content="Отменить" Click="btnCancel_Click" Grid.Column="1" Grid.Row="6"/>
+        <Button x:Name="btnCancel" Content="Отменить" Click="btnCancel_Click" Grid.Column="1" Grid.Row="6" BorderBrush="#FFE20D0D"/>
         <Button x:Name="btnSave" Content="Сохранить" Click="btnSave_Click" Grid.Column="3" Grid.Row="6"/>
     </Grid>
 </Window>

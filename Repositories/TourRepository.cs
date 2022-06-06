@@ -12,7 +12,7 @@ namespace TravelAgencyCRM.Repositories
 
         public static IEnumerable<Tours> GetAllTours()
         {
-            var list = model.Tours.Where(x => x.IsExists == 1 && x.IsApproved == 1);
+            var list = model.Tours.Where(x => x.IsExists == 1 && x.IsApproved == 1 && x.Tickets > 0);
             return list;
         }
         public static IEnumerable<Tours> GetAllNotApprovedTours()

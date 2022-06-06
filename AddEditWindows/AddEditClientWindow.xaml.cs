@@ -70,8 +70,8 @@ namespace TravelAgencyCRM.AddEditWindows
             {
                 errors.AppendLine("Введите номер телефона");
             }
-           
-            if (!new EmailAddressAttribute().IsValid(tbEmail.Text))
+
+            if (!new EmailAddressAttribute().IsValid(tbEmail.Text) && tbEmail.Text!="")
             {
                 errors.AppendLine("Введите корректную электронную почту");
             }
@@ -133,6 +133,14 @@ namespace TravelAgencyCRM.AddEditWindows
                 currentClient.IsExists = 1;
                 if (currentClient.ID == 0)
                 {
+                    if (tbFlat.Text != "")
+                    {
+                        currentClient.Address = $"{cmbTypeAddress.Text} {tbStreet.Text} дом {tbBuilding.Text} квартира {tbFlat.Text}";
+                    }
+                    else
+                    {
+                        currentClient.Address = $"{cmbTypeAddress.Text} {tbStreet.Text} дом {tbBuilding.Text}";
+                    }
                     ClientRepository.AddClient(currentClient);
                 }
                 else

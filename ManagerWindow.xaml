@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TravelAgencyCRM"
         mc:Ignorable="d"
-        Title="Окно менеджера" Height="940" Width="1400" MinWidth="1100" MinHeight="800" WindowStartupLocation="CenterScreen">
+        Title="Окно менеджера" Height="940" Width="1400" MinWidth="1100" MinHeight="800" WindowStartupLocation="CenterScreen" SizeChanged="Window_SizeChanged">
     <Grid> 
         <TabControl SelectionChanged="TabControl_SelectionChanged" Margin="20,0">
             <TabItem Header="Клиенты" x:Name="tiClient">
@@ -56,7 +56,7 @@
             <TabItem Header="Туры" x:Name="tiTour">
                 <StackPanel Orientation="Vertical">
                     <StackPanel x:Name="wPanel">
-                        <WrapPanel Grid.Row="0">
+                        <WrapPanel Grid.Row="0" MouseDown="WrapPanel_MouseDown">
                             <Canvas Width="165" Height="80">
                                 <Label Content="Статус путёвки" Canvas.Left="5"/>
                                 <ComboBox x:Name="cmbStatus" SelectionChanged="cmbTour_SelectionChanged" Canvas.Left="5" Canvas.Top="40">
@@ -97,15 +97,15 @@
                             </Canvas>
                         </WrapPanel>
                     </StackPanel>
-                    <DataGrid x:Name="dgTour" AutoGenerateColumns="False"  CanUserAddRows="False" IsReadOnly="True" CanUserDeleteRows="False" SelectionChanged="Datagrid_SelectionChanged">
+                    <DataGrid x:Name="dgTour" AutoGenerateColumns="False"  CanUserAddRows="False" IsReadOnly="True" MouseDoubleClick="MoveToTrackForm" CanUserDeleteRows="False" SelectionChanged="Datagrid_SelectionChanged">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Город (⇅)" Binding="{Binding City}"/>
                             <DataGridTextColumn Header="Страна (⇅)" Binding="{Binding Country}"/>
                             <DataGridTextColumn Header="Цена (⇅)" Binding="{Binding Price}"/>
                             <DataGridTextColumn Header="Статус (⇅)" Binding="{Binding TourStates.Name}"/>
                             <DataGridTextColumn Header="Тип (⇅)" Binding="{Binding TourType.Name}"/>
-                            <DataGridTextColumn Header="Дата отправки (⇅)" Binding="{Binding Departure, StringFormat=\{0:dd.MM.yyyy\}}"/>
-                            <DataGridTextColumn Header="Дата прибытия (⇅)" Binding="{Binding Arrival, StringFormat=\{0:dd.MM.yyyy\}}"/>
+                            <DataGridTextColumn Header="Дата начала (⇅)" Binding="{Binding Departure, StringFormat=\{0:dd.MM.yyyy\}}"/>
+                            <DataGridTextColumn Header="Дата окончания (⇅)" Binding="{Binding Arrival, StringFormat=\{0:dd.MM.yyyy\}}"/>
                             <DataGridTextColumn Header="Кол-во билетов (⇅)" Binding="{Binding Tickets}"/>
                         </DataGrid.Columns>
                     </DataGrid>
@@ -188,17 +188,15 @@
                         </StackPanel>
                     </StackPanel>
 
-                    <DataGrid x:Name="dgTrack" AutoGenerateColumns="False"  CanUserAddRows="False" IsReadOnly="True" CanUserDeleteRows="False" SelectionChanged="Datagrid_SelectionChanged">
+                    <DataGrid x:Name="dgTrack" AutoGenerateColumns="False" ScrollViewer.HorizontalScrollBarVisibility="Visible" CanUserAddRows="False" IsReadOnly="True" CanUserDeleteRows="False" SelectionChanged="Datagrid_SelectionChanged">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Номер договора (⇅)" Binding="{Binding ID}"/>
+                            <DataGridTextColumn Header="№ договора (⇅)" Binding="{Binding ID}"/>
                             <DataGridTextColumn Header="Имя сотрудника (⇅)" Binding="{Binding Staff.FullName}"/>
-                            <DataGridTextColumn Header="Клиент (⇅)" Binding="{Binding ClientID}"/>
                             <DataGridTextColumn Header="Имя клиента (⇅)" Binding="{Binding Clients.FullName}"/>
-                            <DataGridTextColumn Header="Тур (⇅)" Binding="{Binding TourID}"/>
                             <DataGridTextColumn Header="Город тура (⇅)" Binding="{Binding Tours.City}"/>
                             <DataGridTextColumn Header="Страна тура (⇅)" Binding="{Binding Tours.Country}"/>
                             <DataGridTextColumn Header="Дата заключения (⇅)" Binding="{Binding ContractDate, StringFormat=\{0:dd.MM.yyyy\}}"/>
-                            <DataGridTextColumn Header="Кол-во билетов (⇅)" Binding="{Binding TicketsAmount}"/>
+                            <DataGridTextColumn Header="Билетов (⇅)" Binding="{Binding TicketsAmount}"/>
                             <DataGridTextColumn Header="Сумма (⇅)" Binding="{Binding TotalCost}"/>
                         </DataGrid.Columns>
                     </DataGrid>

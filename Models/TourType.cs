@@ -1,9 +1,9 @@
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace TravelAgencyCRM.Models
 {
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
-
     [Table("TourType")]
     public partial class TourType
     {

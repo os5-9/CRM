@@ -10,12 +10,8 @@ using TravelAgencyCRM.Repositories;
 
 namespace TravelAgencyCRM
 {
-    /// <summary>
-    /// Логика взаимодействия для ManagerWindow.xaml
-    /// </summary>
     public partial class ManagerWindow : Window
     {
-        public AgencyModel model = new AgencyModel();
         private IEnumerable<Clients> allClients;
         private IEnumerable<Tours> allTours;
         private IEnumerable<Track> allTracks;
@@ -52,12 +48,12 @@ namespace TravelAgencyCRM
             }
             if (tiTour.IsSelected)
             {
-                dgTour.Height = this.ActualHeight - wPanel.ActualHeight;
+                SetSize();
                 UpdateTours();
             }
             if (tiTrack.IsSelected)
             {
-                dgTrack.Height = this.ActualHeight - (TourPanel.ActualHeight - 180);
+                SetSize();
                 UpdateTrack();
             }
         }
@@ -65,7 +61,7 @@ namespace TravelAgencyCRM
         {
             e.Handled = true;
         }
-        
+
         #region Client
         private void UpdateClients()
         {
@@ -96,6 +92,20 @@ namespace TravelAgencyCRM
             AddEditClientWindow window = new AddEditClientWindow(null);
             window.Show();
             this.Close();
+        }
+        private void btnEditClient_Click(object sender, RoutedEventArgs e)
+        {
+            var selected = (Clients)dgClient.SelectedItem;
+            if (selected != null)
+            {
+                AddEditClientWindow window = new AddEditClientWindow(selected);
+                window.Show();
+                this.Close();
+            }
+            else
+            {
+                MessageBox.Show("Выберите  для редактирования");
+            }
         }
 
         #endregion
@@ -242,19 +252,21 @@ namespace TravelAgencyCRM
         }
         #endregion
 
-        private void btnEditClient_Click(object sender, RoutedEventArgs e)
+        private void MoveToTrackForm(object sender, MouseButtonEventArgs e)
         {
-            var selected = (Clients)dgClient.SelectedItem;
-            if (selected != null)
-            {
-                AddEditClientWindow window = new AddEditClientWindow(selected);
-                window.Show();
-                this.Close();
-            }
-            else
-            {
-                MessageBox.Show("Выберите  для редактирования");
-            }
+            var selected = (Tours)dgTour.SelectedItem;
+            AddEditTrackWindow window = new AddEditTrackWindow(selected);
+            window.Show();
+        }
+
+        private void SetSize()
+        {
+            dgTour.Height = this.ActualHeight - wPanel.ActualHeight - 64;
+            dgTrack.Height = this.ActualHeight - (TourPanel.ActualHeight + 140);
+        }
+        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            SetSize();
         }
     }
 }
