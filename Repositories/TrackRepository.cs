@@ -82,7 +82,6 @@ namespace TravelAgencyCRM.Repositories
                     j++;
                     WardsTable.Rows[i].Range.Bold = 0;
                 }
-                
             }
 
             document.Bookmarks["ClientFullName"].Select();

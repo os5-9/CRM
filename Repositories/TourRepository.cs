@@ -13,8 +13,8 @@ namespace TravelAgencyCRM.Repositories
 
         public static IEnumerable<Tours> GetAllTours()
         {
-            model.Tours.Load();
-            var list = model.Tours.Where(x => x.IsExists == 1 && x.IsApproved == 1 && x.Tickets > 0).ToList();
+            // model.Tours.Load();
+            var list = model.Tours.Where(x => x.IsExists == 1 && x.IsApproved == 1 && x.Tickets > 0);//.ToList();
             return list;
         }
         public static IEnumerable<Tours> GetAllNotApprovedTours()
@@ -34,6 +34,18 @@ namespace TravelAgencyCRM.Repositories
         {
             var tour = model.Tours.Where(x => x.ID == Id).First();
             tour.IsApproved = 2;
+            model.SaveChanges();
+        }
+        public static void CheckDate()
+        {
+            var tours = model.Tours.ToList();
+            foreach (var item in tours)
+            {
+                if (item.IsExists == 1 && item.Departure < DateTime.Now)
+                {
+                    item.IsExists = 0;
+                }
+            }
             model.SaveChanges();
         }
 
@@ -73,12 +85,12 @@ namespace TravelAgencyCRM.Repositories
         }
         public static IEnumerable<Tours> SearchTourarrivalal(IEnumerable<Tours> tours, DateTime arrivalS, DateTime arrivalF)
         {
-            var list = tours.Where(x => (x.Arrival >= arrivalS && x.Arrival <= arrivalF));
+            var list = tours.Where(x => (x.Departure >= arrivalS && x.Departure <= arrivalF));
             return list;
         }
         public static IEnumerable<Tours> SearchTourdepartureture(IEnumerable<Tours> tours, DateTime departureS, DateTime departureF)
         {
-            var list = tours.Where(x => (x.Departure >= departureS && x.Departure <= departureF));
+            var list = tours.Where(x => (x.Arrival >= departureS && x.Arrival <= departureF));
             return list;
         }
     }

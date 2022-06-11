@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using TravelAgencyCRM.Models;
@@ -15,7 +16,6 @@ namespace TravelAgencyCRM.AddEditWindows
         private Tours selectedTour;
         private Clients selectedClient;
         private Staff selectedStaff;
-        private List<Track> ert = new List<Track>();
 
         public AddEditTrackWindow(Tours movedTour)
         {
@@ -24,8 +24,8 @@ namespace TravelAgencyCRM.AddEditWindows
             UpdateClients();
             allTours = TourRepository.GetAllTours();
             UpdateTours();
-            //selectedStaff = StaffRepository.GetStaffByID(StaffRepository.CurrentStaffID);
-            //tbStaff.Text += ": " + selectedStaff.FullName;
+            selectedStaff = StaffRepository.GetStaffByID(StaffRepository.CurrentStaffID);
+            tbStaff.Text += ": " + selectedStaff.FullName;
             selectedTour = movedTour;
             dgTour.SelectedItem = selectedTour;
 
@@ -41,9 +41,7 @@ namespace TravelAgencyCRM.AddEditWindows
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
-            //ManagerWindow window = new ManagerWindow();
             this.Close();
-           // window.Show();
         }
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
@@ -51,7 +49,7 @@ namespace TravelAgencyCRM.AddEditWindows
             if (selectedClient != null)
             {
                 Track track = new Track();
-                track.StaffID = 11;// selectedStaff.ID;
+                track.StaffID = selectedStaff.ID;
                 track.ClientID = selectedClient.ID;
                 track.TourID = selectedTour.ID;
                 track.ContractDate = DateTime.Now;
@@ -66,7 +64,9 @@ namespace TravelAgencyCRM.AddEditWindows
                 if (selectedTour.Tickets - track.TicketsAmount >= 0)
                 {
                     TrackRepository.AddTrack(track);
-                    TrackRepository.FormContract(track); 
+                    TrackRepository.FormContract(track);
+                    string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + $"\\Дополнительные условия\\" + selectedTour.Attachment;
+                    Process.Start(path);
                     btnCancel_Click(sender, e);
                 }
                 else

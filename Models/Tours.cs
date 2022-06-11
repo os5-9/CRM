@@ -13,7 +13,6 @@ namespace TravelAgencyCRM.Models
             Track = new HashSet<Track>();
         }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int ID { get; set; }
 
         [StringLength(45)]
@@ -22,7 +21,6 @@ namespace TravelAgencyCRM.Models
         [StringLength(45)]
         public string Country { get; set; }
 
-        [Column(TypeName = "money")]
         public int? Price { get; set; }
 
         public int? State { get; set; }
@@ -43,6 +41,8 @@ namespace TravelAgencyCRM.Models
         /// is tour approved by MainManager, has values: 0 - created, not approved; 1 - approved; 2 - not approved
         /// </summary>
         public byte? IsApproved { get; set; }
+
+        public string Attachment { get; set; }
 
         public virtual TourStates TourStates { get; set; }
 

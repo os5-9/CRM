@@ -17,10 +17,11 @@ namespace TravelAgencyCRM
         public AuthWindow()
         {
             InitializeComponent();
+            TourRepository.CheckDate();
         }
         AgencyModel model = new AgencyModel();
 
-        private async void Enter_Click(object sender, RoutedEventArgs e)
+        private void Enter_Click(object sender, RoutedEventArgs e)
         {
             string login = tbLogin.Text;
             string password = tbPassword.Password;

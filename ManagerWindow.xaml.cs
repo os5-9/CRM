@@ -38,6 +38,8 @@ namespace TravelAgencyCRM
             cmbStatusTrack.SelectedIndex = 0;
             cmbTypeTrack.SelectedIndex = 0;
             UpdateTrack();
+
+            cmbStaff.ItemsSource = StaffRepository.GetAllStaff().Where(x => x.IsAdmin == 0).ToList();
         }
 
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -107,7 +109,6 @@ namespace TravelAgencyCRM
                 MessageBox.Show("Выберите  для редактирования");
             }
         }
-
         #endregion
 
         #region Tours
@@ -270,6 +271,34 @@ namespace TravelAgencyCRM
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             SetSize();
+        }
+
+        private void btnHistory_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnContractPeriod_Click(object sender, RoutedEventArgs e)
+        {
+            if (dpS1.SelectedDate != null && dpF1.SelectedDate != null)
+            {
+                var s1 = dpS1.SelectedDate.Value;
+                var f1 = dpF1.SelectedDate.Value;
+                var t = TrackRepository.GetAllTrack().Where(x => (x.ContractDate >= s1 && x.ContractDate <= f1)).ToList();
+                dgReport.ItemsSource = TrackRepository.GetAllTrack().Where(x => (x.ContractDate >= s1 && x.ContractDate <= f1)).ToList();
+                ReportRepository.ContractPeriod(t, s1, f1);
+            }
+        }
+
+        private void btnStaffContractPeriod_Click(object sender, RoutedEventArgs e)
+        {
+            if (dpS2.SelectedDate != null && dpF2.SelectedDate != null && cmbStaff.SelectedItem != null)
+            {
+                var s2 = dpS2.SelectedDate.Value;
+                var f2 = dpF2.SelectedDate.Value;
+                Staff staff = (Staff)cmbStaff.SelectedItem;
+                dgReport.ItemsSource = TrackRepository.GetAllTrack().Where(x => (x.ContractDate >= s2 && x.ContractDate <= f2) && x.StaffID == staff.ID).ToList();
+            }
         }
     }
 }

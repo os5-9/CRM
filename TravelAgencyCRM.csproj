@@ -104,6 +104,7 @@
     <Compile Include="MyContextInitializer.cs" />
     <Compile Include="Repositories\ClientRepository.cs" />
     <Compile Include="Repositories\OperatorRepository.cs" />
+    <Compile Include="Repositories\ReportRepository.cs" />
     <Compile Include="Repositories\StaffRepository.cs" />
     <Compile Include="Repositories\TourRepository.cs" />
     <Compile Include="Repositories\TrackRepository.cs" />

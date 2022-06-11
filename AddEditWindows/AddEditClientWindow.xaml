@@ -51,7 +51,7 @@
         <DatePicker x:Name="dpBDay" Grid.Row="2" Grid.Column="3" SelectedDate="{Binding BDay}"/>
         <TextBox x:Name="tbPasS" Grid.Row="3" Grid.Column="3" MaxLength="4" Width="auto" PreviewTextInput="ControlForDigit" Text="{Binding PassportS}"/>
         <TextBox x:Name="tbPasN" Grid.Row="4" Grid.Column="3" MaxLength="6" Width="auto" PreviewTextInput="ControlForDigit" Text="{Binding PassportN}"/>
-        <TextBox x:Name="tbWhom" Grid.Row="5" Grid.Column="3" Width="auto" PreviewTextInput="ControlForDigit" Text="{Binding Whom}"/>
+        <TextBox x:Name="tbWhom" Grid.Row="5" Grid.Column="3" Width="auto" Text="{Binding Whom}"/>
         <DatePicker x:Name="dpTakedDay" Grid.Row="6" Grid.Column="3" SelectedDate="{Binding TakedDay}"/>
         <xctk:MaskedTextBox x:Name="tbCodeUnit" Mask="000-000" Grid.Row="7" Grid.Column="3" MaxLength="13" Width="auto" Text="{Binding CodeUnit}" PreviewTextInput="tbCertificate_PreviewTextInput"/>
 
