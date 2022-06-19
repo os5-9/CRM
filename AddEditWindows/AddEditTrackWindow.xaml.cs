@@ -26,9 +26,11 @@ namespace TravelAgencyCRM.AddEditWindows
             UpdateTours();
             selectedStaff = StaffRepository.GetStaffByID(StaffRepository.CurrentStaffID);
             tbStaff.Text += ": " + selectedStaff.FullName;
-            selectedTour = movedTour;
-            dgTour.SelectedItem = selectedTour;
-
+            if (movedTour != null)
+            {
+                selectedTour = movedTour;
+                dgTour.SelectedItem = selectedTour;
+            }
         }
         private void UpdateClients()
         {
@@ -48,30 +50,37 @@ namespace TravelAgencyCRM.AddEditWindows
         {
             if (selectedClient != null)
             {
-                Track track = new Track();
-                track.StaffID = selectedStaff.ID;
-                track.ClientID = selectedClient.ID;
-                track.TourID = selectedTour.ID;
-                track.ContractDate = DateTime.Now;
-                foreach (var ward in allWardClients)
+                if (selectedTour != null)
                 {
-                    track.Ward += ward.ID + "|";
-                }
-                track.TicketsAmount = 1 + allWardClients.Count;
-                track.TotalCost = track.TicketsAmount * selectedTour.Price;
-                track.IsExists = 1;
+                    Track track = new Track();
+                    track.StaffID = selectedStaff.ID;
+                    track.ClientID = selectedClient.ID;
+                    track.TourID = selectedTour.ID;
+                    track.ContractDate = DateTime.Now;
+                    foreach (var ward in allWardClients)
+                    {
+                        track.Ward += ward.ID + "|";
+                    }
+                    track.TicketsAmount = 1 + allWardClients.Count;
+                    track.TotalCost = track.TicketsAmount * selectedTour.Price;
+                    track.IsExists = 1;
 
-                if (selectedTour.Tickets - track.TicketsAmount >= 0)
-                {
-                    TrackRepository.AddTrack(track);
-                    TrackRepository.FormContract(track);
-                    string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + $"\\Дополнительные условия\\" + selectedTour.Attachment;
-                    Process.Start(path);
-                    btnCancel_Click(sender, e);
+                    if (selectedTour.Tickets - track.TicketsAmount >= 0)
+                    {
+                        TrackRepository.AddTrack(track);
+                        TrackRepository.FormContract(track);
+                        string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + $"\\Дополнительные условия\\" + selectedTour.Attachment;
+                        Process.Start(path);
+                        btnCancel_Click(sender, e);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Количество людей превышает количество билетов в наличии");
+                    }
                 }
                 else
                 {
-                    MessageBox.Show("Количество людей превышает количество билетов в наличии");
+                    MessageBox.Show("Выберите тур для оформления договора");
                 }
             }
             else

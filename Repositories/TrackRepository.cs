@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using TravelAgencyCRM.Models;
 using Word = Microsoft.Office.Interop.Word;
@@ -124,7 +125,14 @@ namespace TravelAgencyCRM.Repositories
             application.Selection.TypeText($"{track.TotalCost/10}");
             application.Visible = true;
 
-            document.SaveAs2(Environment.CurrentDirectory +$"\\Договора\\Договор №{track.ID}");
+            if (!File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + $"\\Договора"))
+            {
+                Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + $"\\Договора");
+            }
+            //document.SaveAs2(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + $"\\Отчёты\\Отчёт о продажах {staff.FullName} за период {start:dd.MM.yyyy}-{end:dd.MM.yyyy} сформирован {DateTime.Now:dd.MM.yyyy}");
+
+
+            document.SaveAs2(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + $"\\Договора\\Договор №{track.ID}");
         }
     }
 }

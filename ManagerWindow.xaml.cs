@@ -285,7 +285,7 @@ namespace TravelAgencyCRM
                 var s1 = dpS1.SelectedDate.Value;
                 var f1 = dpF1.SelectedDate.Value;
                 var t = TrackRepository.GetAllTrack().Where(x => (x.ContractDate >= s1 && x.ContractDate <= f1)).ToList();
-                dgReport.ItemsSource = TrackRepository.GetAllTrack().Where(x => (x.ContractDate >= s1 && x.ContractDate <= f1)).ToList();
+                dgReport.ItemsSource = t;
                 ReportRepository.ContractPeriod(t, s1, f1);
             }
         }
@@ -297,8 +297,20 @@ namespace TravelAgencyCRM
                 var s2 = dpS2.SelectedDate.Value;
                 var f2 = dpF2.SelectedDate.Value;
                 Staff staff = (Staff)cmbStaff.SelectedItem;
-                dgReport.ItemsSource = TrackRepository.GetAllTrack().Where(x => (x.ContractDate >= s2 && x.ContractDate <= f2) && x.StaffID == staff.ID).ToList();
+                var tracks = TrackRepository.GetAllTrack().Where(x => (x.ContractDate >= s2 && x.ContractDate <= f2) && x.StaffID == staff.ID).ToList();
+                dgReport.ItemsSource = tracks;
+                ReportRepository.ContractPeriodStaff(tracks, staff, s2, f2);
             }
+        }
+
+        private void btnAddContract_Click(object sender, RoutedEventArgs e)
+        {
+          //  var selected = (Tours)dgTour.SelectedItem;
+            AddEditTrackWindow window = new AddEditTrackWindow(null);
+            this.Hide();
+            window.ShowDialog();
+            this.Show();
+            SearchTours();
         }
     }
 }

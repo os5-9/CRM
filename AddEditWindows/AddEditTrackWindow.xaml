@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TravelAgencyCRM.AddEditWindows"
         mc:Ignorable="d"
-        Title="" Height="750" Width="1200" MinHeight="450" MinWidth="800" WindowStartupLocation="CenterScreen">
+        Title="Добавление поездки и оформление договора" Height="750" Width="1200" MinHeight="450" MinWidth="800" WindowStartupLocation="CenterScreen" FontFamily="Cambria">
     <Grid Margin="20,0">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
