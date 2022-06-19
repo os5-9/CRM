@@ -19,8 +19,6 @@ namespace TravelAgencyCRM.AddEditWindows
             if (tbProcent.Text != "")
             {
                 TourRepository.Procent = int.Parse(tbProcent.Text);
-                AdminW admin = new AdminW();
-                admin.Show();
                 this.Close();
             }
             else
