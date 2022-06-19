@@ -19,7 +19,7 @@ namespace TravelAgencyCRM.Models
         public string Comment { get; set; }
 
         /// <summary>
-        /// is operator approved by MainManager, has values: 0 - createt, not approved; 1 - approved; 2 - not approved  
+        /// is operator approved by MainManager, has values: 0 - created, not approved; 1 - approved; 2 - not approved
         /// </summary>
         public byte? IsDenied { get; set; }
     }
