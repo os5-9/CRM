@@ -147,13 +147,13 @@ namespace TravelAgencyCRM
                 {
                     var arrivalS = dpArrivalS.SelectedDate.Value;
                     var arrivalF = dpArrivalF.SelectedDate.Value;
-                    allTours = TourRepository.SearchTourarrivalal(allTours, arrivalS, arrivalF);
+                    allTours = TourRepository.SearchTourDeparture(allTours, arrivalS, arrivalF);
                 }
                 if ((dpDepartureS.SelectedDate != null) && (dpDepartureF.SelectedDate != null))
                 {
                     var departureS = dpDepartureS.SelectedDate.Value;
                     var departureF = dpDepartureF.SelectedDate.Value;
-                    allTours = TourRepository.SearchTourdepartureture(allTours, departureS, departureF);
+                    allTours = TourRepository.SearchTourArrival(allTours, departureS, departureF);
                 }
             }
             UpdateTours();
@@ -311,6 +311,12 @@ namespace TravelAgencyCRM
             window.ShowDialog();
             this.Show();
             SearchTours();
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            AuthWindow auth = new AuthWindow();
+            auth.Show();
         }
     }
 }

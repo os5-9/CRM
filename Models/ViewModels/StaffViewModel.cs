@@ -24,5 +24,10 @@
         /// Должность
         /// </summary>
         public string Place { get; set; }
+
+        /// <summary>
+        /// Заблокирован/Активен
+        /// </summary>
+        public string IsActive { get; set; }
     }
 }

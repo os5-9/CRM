@@ -83,12 +83,12 @@ namespace TravelAgencyCRM.Repositories
             var list = tours.Where(x => x.Price <= price);
             return list;
         }
-        public static IEnumerable<Tours> SearchTourarrivalal(IEnumerable<Tours> tours, DateTime arrivalS, DateTime arrivalF)
+        public static IEnumerable<Tours> SearchTourDeparture(IEnumerable<Tours> tours, DateTime arrivalS, DateTime arrivalF)
         {
             var list = tours.Where(x => (x.Departure >= arrivalS && x.Departure <= arrivalF));
             return list;
         }
-        public static IEnumerable<Tours> SearchTourdepartureture(IEnumerable<Tours> tours, DateTime departureS, DateTime departureF)
+        public static IEnumerable<Tours> SearchTourArrival(IEnumerable<Tours> tours, DateTime departureS, DateTime departureF)
         {
             var list = tours.Where(x => (x.Arrival >= departureS && x.Arrival <= departureF));
             return list;

@@ -29,7 +29,8 @@ namespace TravelAgencyCRM
                 ID = s.ID,
                 FullName = s.FullName,
                 Login = s.Login,
-                Place = s.IsAdmin.Value == 0 ? "Менеджер" : "Главный менеджер"
+                Place = s.IsAdmin.Value == 0 ? "Менеджер" : "Главный менеджер",
+                IsActive = s.IsExists.Value == 0 ? "Заблокирован" : "Активен"
             });
             cmbExisting.SelectedIndex = 0;
             cmbRole.SelectedIndex = 0;
@@ -112,13 +113,13 @@ namespace TravelAgencyCRM
                 {
                     var arrivalS = dpArrivalS.SelectedDate.Value;
                     var arrivalF = dpArrivalF.SelectedDate.Value;
-                    allTours = TourRepository.SearchTourarrivalal(allTours, arrivalS, arrivalF);
+                    allTours = TourRepository.SearchTourDeparture(allTours, arrivalS, arrivalF);
                 }
                 if ((dpDepartureS.SelectedDate != null) && (dpDepartureF.SelectedDate != null))
                 {
                     var departureS = dpDepartureS.SelectedDate.Value;
                     var departureF = dpDepartureF.SelectedDate.Value;
-                    allTours = TourRepository.SearchTourdepartureture(allTours, departureS, departureF);
+                    allTours = TourRepository.SearchTourArrival(allTours, departureS, departureF);
                 }
             }
             UpdateTours();
@@ -199,7 +200,8 @@ namespace TravelAgencyCRM
                                 ID = s.ID,
                                 FullName = s.FullName,
                                 Login = s.Login,
-                                Place = s.IsAdmin.Value == 0 ? "Менеджер" : "Главный менеджер"
+                                Place = s.IsAdmin.Value == 0 ? "Менеджер" : "Главный менеджер",
+                                IsActive = s.IsExists.Value == 0 ? "Заблокирован" : "Активен"
                             });
                     }
                     else
@@ -211,7 +213,8 @@ namespace TravelAgencyCRM
                                 ID = s.ID,
                                 FullName = s.FullName,
                                 Login = s.Login,
-                                Place = s.IsAdmin.Value == 0 ? "Менеджер" : "Главный менеджер"
+                                Place = s.IsAdmin.Value == 0 ? "Менеджер" : "Главный менеджер",
+                                IsActive = s.IsExists.Value == 0 ? "Заблокирован" : "Активен"
                             });
                     }
                 }
@@ -225,7 +228,8 @@ namespace TravelAgencyCRM
                                 ID = s.ID,
                                 FullName = s.FullName,
                                 Login = s.Login,
-                                Place = s.IsAdmin.Value == 0 ? "Менеджер" : "Главный менеджер"
+                                Place = s.IsAdmin.Value == 0 ? "Менеджер" : "Главный менеджер",
+                                IsActive = s.IsExists.Value == 0 ? "Заблокирован" : "Активен"
                             });
                     }
                     else
@@ -237,7 +241,8 @@ namespace TravelAgencyCRM
                                 ID = s.ID,
                                 FullName = s.FullName,
                                 Login = s.Login,
-                                Place = s.IsAdmin.Value == 0 ? "Менеджер" : "Главный менеджер"
+                                Place = s.IsAdmin.Value == 0 ? "Менеджер" : "Главный менеджер",
+                                IsActive = s.IsExists.Value == 0 ? "Заблокирован" : "Активен"
                             });
                     }
                 }
@@ -257,8 +262,22 @@ namespace TravelAgencyCRM
             var selected = (StaffViewModel)dgStaff.SelectedItem;
             if (selected != null)
             {
-                StaffRepository.Lock(selected.ID);
-                UpdateStaff();
+                if (StaffRepository.GetStaffByID(selected.ID).IsExists == 0)
+                {
+                    MessageBox.Show("Выбранный сотрудник уже заблокирован");
+                }
+                else
+                {
+                    if (StaffRepository.CurrentStaffID == selected.ID)
+                    {
+                        MessageBox.Show("Вы не можете заблокировать свой аккаунт");
+                    }
+                    else
+                    {
+                        StaffRepository.Lock(selected.ID);
+                        UpdateStaff();
+                    }
+                }
             }
             else
             {
@@ -270,8 +289,15 @@ namespace TravelAgencyCRM
             var selected = (StaffViewModel)dgStaff.SelectedItem;
             if (selected != null)
             {
-                StaffRepository.Unlock(selected.ID);
-                UpdateStaff();
+                if (StaffRepository.GetStaffByID(selected.ID).IsExists == 1)
+                {
+                    MessageBox.Show("Выбранный сотрудник уже имеет доступ к системе");
+                }
+                else
+                {
+                    StaffRepository.Unlock(selected.ID);
+                    UpdateStaff();
+                }
             }
             else
             {
@@ -349,7 +375,7 @@ namespace TravelAgencyCRM
                 if (MessageBox.Show("Вы уверенны, что хотите заблокировать выбранному оператору доступ к системе?\nДанное действие нельзя будет отменить", "", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
                     OperatorRepository.DismissOperator(selected.ID);
-                    UpdateWaitOperators();
+                    UpdateOperators();
                 }
             }
             else
@@ -358,5 +384,11 @@ namespace TravelAgencyCRM
             }
         }
         #endregion
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            AuthWindow auth = new AuthWindow();
+            auth.Show();
+        }
     }
 }

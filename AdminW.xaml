@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TravelAgencyCRM"
         mc:Ignorable="d"
-        Title="Главный менеджер по продажам" Height="940" Width="1400" MinWidth="1100" MinHeight="800" WindowStartupLocation="CenterScreen">
+        Title="Главный менеджер по продажам" Height="940" Width="1400" MinWidth="1100" MinHeight="800" WindowStartupLocation="CenterScreen" Closing="Window_Closing">
     <Grid>
         <TabControl SelectionChanged="TabControl_SelectionChanged" Margin="20,0">
             <TabItem Header="Сотрудники" x:Name="tiStaff">
@@ -54,6 +54,7 @@
                             <DataGridTextColumn Header="ФИО (⇅)" Binding="{Binding FullName}" />
                             <DataGridTextColumn Header="Должность (⇅)" Binding="{Binding Place}"/>
                             <DataGridTextColumn Header="Логин (⇅)" Binding="{Binding Login}"/>
+                            <DataGridTextColumn Header="Состояние активности (⇅)" Binding="{Binding IsActive}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </Grid>

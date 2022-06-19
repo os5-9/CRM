@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TravelAgencyCRM"
         mc:Ignorable="d"
-        Title="Окно менеджера" Height="940" Width="1400" MinWidth="1100" MinHeight="800" WindowStartupLocation="CenterScreen" SizeChanged="Window_SizeChanged">
+        Title="Окно менеджера" Height="940" Width="1400" MinWidth="1100" MinHeight="800" WindowStartupLocation="CenterScreen" SizeChanged="Window_SizeChanged" Closing="Window_Closing">
     <Grid> 
         <TabControl SelectionChanged="TabControl_SelectionChanged" Margin="20,0">
             <TabItem Header="Клиенты" x:Name="tiClient">
