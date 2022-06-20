@@ -92,8 +92,7 @@ namespace TravelAgencyCRM
         private void btnAddClient_Click(object sender, RoutedEventArgs e)
         {
             AddEditClientWindow window = new AddEditClientWindow(null);
-            window.Show();
-            this.Close();
+            window.ShowDialog();
         }
         private void btnEditClient_Click(object sender, RoutedEventArgs e)
         {
@@ -101,12 +100,11 @@ namespace TravelAgencyCRM
             if (selected != null)
             {
                 AddEditClientWindow window = new AddEditClientWindow(selected);
-                window.Show();
-                this.Close();
+                window.ShowDialog();
             }
             else
             {
-                MessageBox.Show("Выберите  для редактирования");
+                MessageBox.Show("Выберите клиента для редактирования");
             }
         }
         #endregion
@@ -305,7 +303,6 @@ namespace TravelAgencyCRM
 
         private void btnAddContract_Click(object sender, RoutedEventArgs e)
         {
-          //  var selected = (Tours)dgTour.SelectedItem;
             AddEditTrackWindow window = new AddEditTrackWindow(null);
             this.Hide();
             window.ShowDialog();

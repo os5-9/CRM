@@ -59,14 +59,14 @@
                         <WrapPanel Grid.Row="0">
                             <Canvas Width="165" Height="80">
                                 <Label Content="Статус путёвки" Canvas.Left="5"/>
-                                <ComboBox x:Name="cmbStatus" SelectionChanged="cmbTour_SelectionChanged" Canvas.Left="5" Canvas.Top="40">
+                                <ComboBox x:Name="cmbStatus" SelectionChanged="cmbTour_SelectionChanged" Canvas.Left="5" Canvas.Top="40" Height="33">
                                     <ComboBoxItem Content="Все"/>
                                     <ComboBoxItem Content="Обычная"/>
                                     <ComboBoxItem Content="Горящая"/>
                                 </ComboBox>
                             </Canvas>
                             <Canvas Width="165" Height="80">
-                                <Label Content="Тип" Canvas.Left="5"/>
+                                <Label Content="Тип путёвки" Canvas.Left="5"/>
                                 <ComboBox x:Name="cmbType" SelectionChanged="cmbTour_SelectionChanged" Canvas.Top="40" Height="33" Canvas.Left="5" >
                                     <ComboBoxItem Content="Все"/>
                                     <ComboBoxItem Content="Прямой путь"/>
@@ -102,6 +102,7 @@
                     </StackPanel>
                     <DataGrid x:Name="dgTour" AutoGenerateColumns="False"  CanUserAddRows="False" IsReadOnly="True" MouseDoubleClick="MoveToTrackForm" CanUserDeleteRows="False" SelectionChanged="Datagrid_SelectionChanged">
                         <DataGrid.Columns>
+                            <DataGridTextColumn Header="Номер тура (⇅)" Binding="{Binding ID}"/>
                             <DataGridTextColumn Header="Город (⇅)" Binding="{Binding City}"/>
                             <DataGridTextColumn Header="Страна (⇅)" Binding="{Binding Country}"/>
                             <DataGridTextColumn Header="Цена (⇅)" Binding="{Binding Price}"/>
@@ -135,7 +136,7 @@
                             <Label Content="Пол" HorizontalAlignment="Left"/>
                             <Label Content="ФИО клиента" Grid.Column="2" HorizontalAlignment="Left"/>
                             <Label Content="ФИО сотрудника" Grid.Column="4" HorizontalAlignment="Left"/>
-                            <ComboBox x:Name="cmbGenderTrack" Height="33" Grid.Row="2" SelectionChanged="cmbTrack_SelectionChanged" Width="auto">
+                            <ComboBox x:Name="cmbGenderTrack"  Grid.Row="2" SelectionChanged="cmbTrack_SelectionChanged" Width="auto" Height="33">
                                 <ComboBoxItem Content="Все"/>
                                 <ComboBoxItem Content="Мужской"/>
                                 <ComboBoxItem Content="Женский"/>
@@ -151,7 +152,7 @@
                                 <WrapPanel Grid.Row="0">
                                     <Canvas Width="155" Height="80">
                                         <Label Content="Статус путёвки" Canvas.Left="0"/>
-                                        <ComboBox x:Name="cmbStatusTrack" SelectionChanged="cmbTrack_SelectionChanged" Canvas.Left="0" Canvas.Top="40">
+                                        <ComboBox x:Name="cmbStatusTrack" SelectionChanged="cmbTrack_SelectionChanged" Canvas.Left="0" Canvas.Top="40" Height="33">
                                             <ComboBoxItem Content="Все"/>
                                             <ComboBoxItem Content="Обычная"/>
                                             <ComboBoxItem Content="Горящая"/>

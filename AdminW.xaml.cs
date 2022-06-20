@@ -145,7 +145,7 @@ namespace TravelAgencyCRM
                 TourProcent tour = new TourProcent();
                 tour.ShowDialog();
                 int procent = TourRepository.Procent;
-                TourRepository.ApproveTour(selected.ID, procent);
+                TourRepository.ApproveTour(selected, procent);
                 UpdateTours();
             }
             else
@@ -307,8 +307,7 @@ namespace TravelAgencyCRM
         private void btnAddStaff_Click(object sender, RoutedEventArgs e)
         {
             AddEditStaffWindow window = new AddEditStaffWindow(0);
-            window.Show();
-            this.Close();
+            window.ShowDialog();
         }
         private void btnEditStaff_Click(object sender, RoutedEventArgs e)
         {
@@ -316,8 +315,7 @@ namespace TravelAgencyCRM
             if (selected != null)
             {
                 AddEditStaffWindow window = new AddEditStaffWindow(selected.ID);
-                window.Show();
-                this.Close();
+                window.ShowDialog();
             }
             else
             {

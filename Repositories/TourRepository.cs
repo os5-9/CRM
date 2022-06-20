@@ -23,9 +23,9 @@ namespace TravelAgencyCRM.Repositories
             return list;
         }
 
-        public static void ApproveTour(int id, int procent)
+        public static void ApproveTour(Tours tour, int procent)
         {
-            var tour = model.Tours.Where(x => x.ID == id).First();
+           // var tour = model.Tours.Where(x => x.ID == id).First();
             tour.IsApproved = 1;
             tour.Price = tour.Price + (tour.Price * procent) / 100;
             model.SaveChanges();
