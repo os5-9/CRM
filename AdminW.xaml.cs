@@ -308,6 +308,7 @@ namespace TravelAgencyCRM
         {
             AddEditStaffWindow window = new AddEditStaffWindow(0);
             window.ShowDialog();
+            UpdateStaff();
         }
         private void btnEditStaff_Click(object sender, RoutedEventArgs e)
         {
@@ -316,6 +317,7 @@ namespace TravelAgencyCRM
             {
                 AddEditStaffWindow window = new AddEditStaffWindow(selected.ID);
                 window.ShowDialog();
+                UpdateStaff();
             }
             else
             {

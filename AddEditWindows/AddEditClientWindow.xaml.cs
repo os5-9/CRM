@@ -120,8 +120,6 @@ namespace TravelAgencyCRM.AddEditWindows
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
-            ManagerWindow managerWindow = new ManagerWindow();
-            managerWindow.Show();
             this.Close();
         }
 

@@ -93,6 +93,7 @@ namespace TravelAgencyCRM
         {
             AddEditClientWindow window = new AddEditClientWindow(null);
             window.ShowDialog();
+            UpdateClients();
         }
         private void btnEditClient_Click(object sender, RoutedEventArgs e)
         {
@@ -101,6 +102,7 @@ namespace TravelAgencyCRM
             {
                 AddEditClientWindow window = new AddEditClientWindow(selected);
                 window.ShowDialog();
+                UpdateClients();
             }
             else
             {
